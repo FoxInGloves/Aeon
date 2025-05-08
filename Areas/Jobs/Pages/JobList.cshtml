@@ -1,0 +1,57 @@
+@page
+@model Aeon_Web.Areas.Jobs.Pages.JobList
+
+@{
+    ViewData["Title"] = "Вакансии";
+}
+
+<h1>Актуальные вакансии</h1>
+
+@if (Model.Vacancies == null || !Model.Vacancies.Any())
+{
+    <p>Вакансии не найдены.</p>
+}
+else
+{
+    <div class="vacancy-list">
+        @foreach (var vacancy in Model.Vacancies)
+        {
+            <div class="vacancy-card">
+                <h3>
+                    <a asp-page="Details" asp-route-id="@vacancy.Id">
+                        @vacancy.Title
+                    </a>
+                </h3>
+                <p><strong>Компания:</strong> @vacancy.CompanyName</p>
+                <p><strong>Локация:</strong> @vacancy.Location</p>
+                <p><strong>Опыт:</strong> @vacancy.ExperienceLevel</p>
+
+                <p><small>Опубликовано: @vacancy.PostedDate.ToShortDateString()</small></p>
+            </div>
+        }
+    </div>
+}
+
+<style>
+    .vacancy-list {
+        display: grid;
+        gap: 1.5rem;
+    }
+
+    .vacancy-card {
+        border: 1px solid #ccc;
+        padding: 1rem;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+    .vacancy-card h3 a {
+        color: #007acc;
+        text-decoration: none;
+    }
+
+    .vacancy-card h3 a:hover {
+        text-decoration: underline;
+    }
+</style>
+

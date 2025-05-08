@@ -1,0 +1,44 @@
+@page
+@model Aeon_Web.Areas.Identity.Pages.Account.Profile.EditResume
+
+@{
+    
+}
+
+<link rel="stylesheet" href="~/css/areas/identity/account/profile/profile-actions.css"/>
+<link rel="stylesheet" href="~/css/common.css"/>
+<link rel="stylesheet" href="~/css/text.css"/>
+<link rel="stylesheet" href="~/css/margin.css"/>
+<div>
+    <form>
+        <table class="mt-1 center-block">
+            <td class="w-50">
+                <div class="desc">
+                    <div class="fw-bold">Hello!</div>
+                    <input/>
+                    <textarea asp-for="Description" style="width: 400px; height: 300px"></textarea>
+                </div>
+            </td>
+            <td class="w-50">
+                <div class="details-container">
+                    <div class="m-tl-50-20">
+                        <p class="light-text fw-bold details-text">Details</p>
+                        <div class="details-block block">
+                            <div class="light-text fw-bold details-text">Желаемая роль в команде</div>
+                            <input asp-for="Role" type="text" class="details-text"/>
+                        </div>
+                        <div class="details-block block">
+                            <div class="light-text fw-bold details-text">Имя</div>
+                            <input asp-for="Name" type="text" class="details-text"/>
+                        </div>
+                        <div class="details-block block">
+                            <div class="light-text fw-bold details-text">Email</div>
+                            <input asp-for="Email" type="text" class="details-text"/>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </table>
+        <button type="submit" asp-page-handler="Save" class="w-30 btn btn-lg btn-primary ">Сохранить</button>
+    </form>
+</div>

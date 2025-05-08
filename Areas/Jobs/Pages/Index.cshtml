@@ -1,0 +1,39 @@
+@page
+@model Aeon_Web.Areas.Jobs.Pages.Index
+
+@{
+    
+}
+
+<link rel="stylesheet" type="text/css" href="~/css/catalog/item.css"/>
+<div class="main-container">
+    <div class="content">
+        <div class="filter-container">
+            <h2>Настройки поиска</h2>
+        </div>
+        <div>
+            
+        </div>
+        <div class="items-container">
+            <h5>Вакансии для вас:</h5>
+            @if (Model.Vacancies != null)
+            {
+                foreach (var vacancy in Model.Vacancies)
+                {
+                    <div class="item">
+                        <a class="item-link" asp-controller="Vacancies" asp-action="Details" asp-route-vacancyId="@vacancy.Id">
+                            <div class="text-container">
+                                <h4>@vacancy.Title</h4>
+                                <h5 class="item-text">@vacancy.ExperienceLevel</h5>
+                            </div>
+                            <div class="item-nav-container">
+                                <a class="item-nav" id="apply-button" asp-controller="Home" asp-action="Privacy">Откликнуться</a>
+                                <div class="item-nav" id="contacts-button">Контакты</div>
+                            </div>
+                        </a>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
