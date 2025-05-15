@@ -7,7 +7,7 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link btn btn-link">
+            <a class="nav-link btn btn-link" asp-area="Project" asp-page="/Jobs/Form">
                 Избранное
             </a>
         </li>

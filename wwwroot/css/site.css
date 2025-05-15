@@ -1,3 +1,20 @@
+:root {
+  --background: #F9FAFB;
+  --card-bg: #FFFFFF;
+  --accent: #6366F1;
+  --accent-hover: #4F46E5;
+  --accent-contrast: #FB923C;
+  --accent-contrast-hover:#ffa500;
+  --accent-light: #EEF2FF;
+  --success: #28A745;
+  --danger: #DC3545;
+  --text-main: #111827;
+  --text-muted: #6B7280;
+  --border: #E5E7EB;
+  --shadow: rgba(0, 0, 0, 0.05);
+  --shadow-accent: #14B8A6;
+}
+
 html {
   font-size: 14px;
 }

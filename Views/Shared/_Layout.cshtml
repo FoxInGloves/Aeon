@@ -9,25 +9,25 @@
     <link rel="stylesheet" href="~/css/shared/layout.css"/>
 </head>
 <body>
-<header class="colored-header">
+<header class="colored-header" id="site-header">
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
         <div class="container-fluid">
-            <a class="navbar-brand text-white" asp-area="" asp-controller="Vacancies" asp-action="Index">Aeon</a>
+            <a class="navbar-brand text-white" asp-area="Project" asp-page="/Index">Aeon</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" 
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark text-white" asp-area="" asp-controller="Vacancies" asp-action="Catalog">Catalog</a>
-                    </li>
                     @*<li class="nav-item">
-                        <a class="nav-link text-dark text-white" asp-area="Jobs" asp-page="/JobList">Catalog</a>
+                        <a class="nav-link text-dark text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>*@
+                    <li class="nav-item">
+                        <a class="nav-link text-dark text-white" asp-area="Project" asp-page="/Jobs/List">Catalog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark text-white" asp-area="Project" asp-page="/Jobs/Swipe">Swipe</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                     </li>
@@ -51,6 +51,25 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
+@*<script>
+    let lastScrollTop = 0;
+    const header = document.getElementById("site-header");
+
+    window.addEventListener("scroll", () => {
+        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (currentScroll > lastScrollTop) {
+            // Скролл вниз
+            header.classList.add("hidden");
+        } else {
+            // Скролл вверх
+            header.classList.remove("hidden");
+        }
+
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+    });
+</script>*@
+
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

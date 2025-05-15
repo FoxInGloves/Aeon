@@ -1,79 +1,63 @@
-﻿@{
-    ViewData["Title"] = "Find Your Perfect Team";
+﻿@page
+
+@*Todo null reference*@
+@*
+@{
+    ViewData["Title"] = "Aeon Jobs — твоя карьера начинается здесь";
 }
+*@
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
 <link rel="stylesheet" href="~/css/home/index.css"/>
-<div class="main">
-    <div class="content-container">
-        <h1 class="title">Aeon - Найди идеальную команду</h1>
-        <p class="text">Присоединяйтесь к сообществу инноваторов и создавайте потрясающие проекты вместе.</p>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
-        <div class="search-bar">
-            <input type="text" placeholder="Введите название проекта или навык">
-            <button>Поиск</button>
+<header data-aos="fade-down">
+    <h1>🚀 Найди свою идеальную работу с Aeon</h1>
+    <p>Современный сервис для поиска вакансий, который говорит на языке твоей карьеры.</p>
+    <div class="cta">
+        <a asp-page="/Jobs/Index">Найти вакансию</a>
+    </div>
+</header>
+
+<section class="section" data-aos="fade-up">
+    <h2 style="text-align:center;">🌟 Почему выбирают нас?</h2>
+    <div class="features">
+        <div class="card" data-aos="zoom-in">
+            <i class="fa-solid fa-magic"></i>
+            <h3>Интеллектуальный подбор</h3>
+            <p>Автоматические рекомендации на основе твоего опыта и интересов.</p>
         </div>
-
-        @*<div class="cta-buttons">
-            <button class="btn-primary">Создать проект</button>
-            <button class="btn-secondary">Присоединиться</button>
-        </div>*@
-
-        <div class="categories">
-            <div class="category">
-                <div class="category-title">
-                    Angular
-                </div>
-                <div class="category-mini-description">
-                    Мини описание наверное
-                </div>
-                <div class="category-search">
-                    Search
-                </div>
-            </div>
-            <div class="category">
-                <div class="category-title">
-                    TypeScript
-                </div>
-                <div class="category-mini-description">
-                    Мини описание наверное
-                </div>
-                <div class="category-search">
-                    Search
-                </div>
-            </div>
-            <div class="category">
-                <div class="category-title">
-                    Java
-                </div>
-                <div class="category-mini-description">
-                    Мини описание наверное
-                </div>
-                <div class="category-search">
-                    Search
-                </div>
-            </div>
-            <div class="category">
-                <div class="category-title">
-                    React
-                </div>
-                <div class="category-mini-description">
-                    Мини описание наверное
-                </div>
-                <div class="category-search">
-                    Search
-                </div>
-            </div>
-            <div class="category">
-                <div class="category-title">
-                    Vue.js
-                </div>
-                <div class="category-mini-description">
-                    Мини описание наверное
-                </div>
-                <div class="category-search">
-                    Search
-                </div>
-            </div>
+        <div class="card" data-aos="zoom-in" data-aos-delay="100">
+            <i class="fa-solid fa-globe"></i>
+            <h3>Работа по всему миру</h3>
+            <p>Удалёнка или офис — выбирай то, что подходит именно тебе.</p>
+        </div>
+        <div class="card" data-aos="zoom-in" data-aos-delay="200">
+            <i class="fa-solid fa-user-shield"></i>
+            <h3>Приватность</h3>
+            <p>Мы не передаём твои данные третьим лицам. Безопасность на первом месте.</p>
         </div>
     </div>
-</div>
+</section>
+
+<section class="section" data-aos="fade-up">
+    <h2 style="text-align:center;">💼 Категории</h2>
+    <div class="features">
+        <div class="card"><i class="fa-solid fa-code"></i>
+            <h3>Разработка</h3></div>
+        <div class="card"><i class="fa-solid fa-pen-nib"></i>
+            <h3>Дизайн</h3></div>
+        <div class="card"><i class="fa-solid fa-database"></i>
+            <h3>Аналитика</h3></div>
+        <div class="card"><i class="fa-solid fa-bullhorn"></i>
+            <h3>Маркетинг</h3></div>
+    </div>
+</section>
+
+<script>
+    AOS.init({
+        duration: 1000,
+        once: true
+    });
+</script>

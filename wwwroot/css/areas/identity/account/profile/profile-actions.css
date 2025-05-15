@@ -13,7 +13,7 @@
 
 .details-container {
     width: 500px;
-    background-color: #0b5ed7;
+    background-color: var(--accent);
     border-radius: 20px;
     height: auto;
     padding: 70px 50px;
@@ -62,7 +62,7 @@
 }
 
 .proj-circle {
-    border: 3px #c56316 solid;
+    border: 3px var(--accent-contrast) solid;
 }
 
 .proj-circle:hover {
