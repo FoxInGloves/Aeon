@@ -1,0 +1,63 @@
+@page
+@model Aeon_Web.Areas.Project.Pages.Jobs.Details
+
+@{
+    ViewData["Title"] = "Job Details";
+    var job = Model.Job;
+}
+
+<link href="https://cdn.jsdelivr.net/npm/lucide@latest" rel="stylesheet" />
+<link rel="stylesheet" href="~/css/areas/project/details.css"/>
+
+<div class="body">
+    <section class="job-detail-container animate-fade">
+        <div class="job-header">
+            <h1 class="job-title">@job.Title</h1>
+        </div>
+
+        <div class="job-meta">
+            <span class="badge"><i data-lucide="briefcase"></i> @job.DifficultyLevel</span>
+            <span class="badge"><i data-lucide="calendar-days"></i> @job.PostedDate.ToString("dd MMM yyyy")</span>
+            @*@if (job.SalaryFrom.HasValue || job.SalaryTo.HasValue)
+        {
+            <span class="badge">
+                <i data-lucide="dollar-sign"></i>
+                @($"{job.SalaryFrom?.ToString("C0")} - {job.SalaryTo?.ToString("C0")} {job.Currency}")
+            </span>
+        }*@
+        </div>
+
+        <div class="section">
+            <h2><i data-lucide="file-text"></i> Job Description</h2>
+            <p>@job.Description</p>
+        </div>
+
+        <div class="section">
+            <h2><i data-lucide="list-checks"></i> Required Skills</h2>
+            <ul class="skills">
+                @foreach (var skill in job.SkillsRequired)
+                {
+                    <li>@skill</li>
+                }
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2><i data-lucide="mail"></i> Contact</h2>
+            <p>Email: <a href="mailto:@job.Contact.Email">@job.Contact.Email</a></p>
+            @if (!string.IsNullOrWhiteSpace(job.Contact.Phone))
+            {
+                <p>Phone: <a href="tel:@job.Contact.Phone">@job.Contact.Phone</a></p>
+            }
+        </div>
+
+        <div class="actions">
+            <button class="btn-primary">Apply Now</button>
+            <button class="btn-secondary" onclick="history.back()">Back</button>
+        </div>
+    </section>
+</div>
+
+<script>
+    lucide.createIcons();
+</script>

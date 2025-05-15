@@ -1,0 +1,98 @@
+@page
+@model Aeon_Web.Areas.Project.Pages.Jobs.FormModel
+
+@{
+    var isEdit = Model.Job.Id != Guid.Empty;
+    ViewData["Title"] = isEdit ? "Edit Job Vacancy" : "Create Job Vacancy";
+}
+
+<link rel="stylesheet" href="~/css/areas/project/form.css"/>
+
+<section class="form-container">
+    <h1>@(isEdit ? "Edit Vacancy" : "Create New Vacancy")</h1>
+
+    <form method="post">
+        <div class="form-group">
+            <label>Заголовок</label>
+            <input asp-for="Job.Title" class="input" placeholder="Frontend Developer" />
+        </div>
+        
+        <div class="form-group">
+            <label>Сложность проекта</label>
+            <div class="star-rating" id="starRating">
+                <div class="stars">
+                    <span class="star" data-value="1"></span>
+                    <span class="star" data-value="2"></span>
+                    <span class="star" data-value="3"></span>
+                    <span class="star" data-value="4"></span>
+                    <span class="star" data-value="5"></span>
+                </div>
+            </div>
+            <input type="hidden" id="difficulty" name="Difficulty" value="0" />
+
+        </div>
+
+        <div class="form-group">
+            <label>Skills (comma-separated)</label>
+            <input asp-for="SkillsRaw" class="input" placeholder="C#, ASP.NET, Razor Pages" />
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <textarea asp-for="Job.Description" class="input textarea" rows="5" placeholder="Describe the responsibilities and requirements..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Email для связи</label>
+            <input asp-for="Job.Contact.Email" class="input" placeholder="hr@company.com" />
+        </div>
+
+        <div class="form-group">
+            <label>Телефон для связи</label>
+            <input asp-for="Job.Contact.Phone" class="input" placeholder="+1 234 567 89" />
+        </div>
+
+        <div class="form-actions">
+            <button class="btn-primary" type="submit">@(isEdit ? "Обновить" : "Создать")</button>
+            <a class="btn-secondary" href="/Jobs">Отмена</a>
+        </div>
+    </form>
+</section>
+
+<script>
+    const ratingEl = document.getElementById("starRating");
+    const input = document.getElementById("difficulty");
+    const stars = ratingEl.querySelectorAll(".star");
+
+    function setRating(rating) {
+        input.value = rating;
+        stars.forEach((star, i) => {
+            const full = i + 1;
+            if (rating >= full) {
+                star.style.backgroundPosition = "left";
+            } else if (rating >= full - 0.5) {
+                star.style.backgroundPosition = "center";
+            } else {
+                star.style.backgroundPosition = "right";
+            }
+        });
+    }
+
+    stars.forEach((star, i) => {
+        star.addEventListener("click", (e) => {
+            const rect = star.getBoundingClientRect();
+            const isHalf = e.clientX - rect.left < rect.width / 2;
+            const rating = isHalf ? i + 0.5 : i + 1;
+            setRating(rating);
+            input.value = rating;
+        });
+    });
+
+    ratingEl.addEventListener("mouseleave", () => {
+        const rating = parseFloat(input.value) || 0;
+        setRating(rating);
+    });
+    
+    setRating(0);
+</script>
+

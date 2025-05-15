@@ -1,0 +1,39 @@
+@page
+@model Aeon_Web.Areas.Project.Pages.Jobs.ListModel
+@{
+    ViewData["Title"] = "🔥 Вакансии мечты";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="~/css/areas/project/list.css"/>
+
+<div class="body">
+    <section class="container">
+        <h1 class="headline">🔥 Актуальные вакансии</h1>
+        <div class="job-grid">
+            @foreach (var job in Model.Vacancies)
+            {
+                <div class="job-card">
+                    <a asp-area="Project" asp-page="/Jobs/Details">
+                        <div class="card-header">
+                            <h2>@job.Title</h2>
+                            @*<span class="company">@job.CompanyName</span>*@
+                        </div>
+                        <p class="description">@job.Description.Substring(0, Math.Min(120, job.Description.Length))...</p>
+                        <div class="meta">
+                            <span class="badge">@job.DifficultyLevel</span>
+                            @*<span class="location">@job.Location</span>*@
+                        </div>
+                        <div class="skills">
+                            @foreach (var skill in job.SkillsRequired.Take(5))
+                            {
+                                <span class="skill">@skill</span>
+                            }
+                        </div>
+                        <a class="view-button" asp-page="/Job/Details" asp-route-id="@job.Id">Подробнее</a>
+                    </a>
+                </div>
+            }
+        </div>
+    </section>
+</div>
