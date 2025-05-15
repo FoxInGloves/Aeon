@@ -1,8 +1,6 @@
-using Aeon_Web.Models.Entities.Resume;
-
 namespace Aeon_Web.Models.Entities;
 
-public class JobVacancy
+public class Vacancy
 {
     public Guid Id { get; set; } = Guid.NewGuid();
 

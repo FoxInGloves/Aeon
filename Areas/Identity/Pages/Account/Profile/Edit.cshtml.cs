@@ -1,5 +1,4 @@
 using Aeon_Web.Models.Entities;
-using Aeon_Web.Models.Entities.Resume;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

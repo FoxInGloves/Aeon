@@ -1,4 +1,4 @@
-namespace Aeon_Web.Models.Entities.Resume;
+namespace Aeon_Web.Models.Entities;
 
 public class ContactInfo
 {

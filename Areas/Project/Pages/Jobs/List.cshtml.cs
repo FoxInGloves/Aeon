@@ -5,16 +5,16 @@ namespace Aeon_Web.Areas.Project.Pages.Jobs;
 
 public class ListModel : PageModel
 {
-    public List<JobVacancy>? Vacancies { get; set; } = new();
+    public List<Vacancy>? Vacancies { get; set; } = new();
 
     public void OnGet()
     {
-        Vacancies = new List<JobVacancy>();
+        Vacancies = new List<Vacancy>();
 
         for (var i = 0; i < 10; i++)
         {
             Vacancies.AddRange([
-                new JobVacancy
+                new Vacancy
                 {
                     Id = Guid.NewGuid(),
                     Title = "Backend Developer",
@@ -22,7 +22,7 @@ public class ListModel : PageModel
                     PostedDate = DateTime.UtcNow.AddDays(-2),
                     SkillsRequired = ["c#", "c", "java", "RabbitMQ"]
                 },
-                new JobVacancy
+                new Vacancy
                 {
                     Id = Guid.NewGuid(),
                     Title = "Junior Frontend Developer",

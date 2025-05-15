@@ -22,4 +22,10 @@
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Vacancies\Catalog.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Vacancies\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Vacancies\Index.cshtml" />
+    </ItemGroup>
+
 </Project>

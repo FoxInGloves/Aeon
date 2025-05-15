@@ -1,15 +1,13 @@
 using Aeon_Web.Models.Entities;
-using Aeon_Web.Models.Entities.Resume;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Aeon_Web.Areas.Project.Pages.Jobs;
 
 public class FormModel : PageModel
 {
     [BindProperty]
-    public JobVacancy Job { get; set; } = new();
+    public Vacancy Job { get; set; } = new();
 
     [BindProperty]
     public string SkillsRaw { get; set; } = "";
@@ -38,10 +36,10 @@ public class FormModel : PageModel
         return RedirectToPage("/Jobs");
     }
 
-    private JobVacancy LoadJobById(Guid id)
+    private Vacancy LoadJobById(Guid id)
     {
         // Заглушка
-        return new JobVacancy
+        return new Vacancy
         {
             Id = id,
             Title = "Sample Job",
@@ -52,7 +50,7 @@ public class FormModel : PageModel
         };
     }
 
-    private void SaveJob(JobVacancy job)
+    private void SaveJob(Vacancy job)
     {
         // логика сохранения
     }

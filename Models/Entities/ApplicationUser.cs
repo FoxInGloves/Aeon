@@ -6,5 +6,5 @@ public class ApplicationUser : IdentityUser<Guid>
 {
     public override Guid Id { get; set; }
 
-    public Resume.Resume? Resume { get; set; }
+    public Resume? Resume { get; set; }
 }

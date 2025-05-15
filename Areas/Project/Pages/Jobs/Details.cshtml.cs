@@ -1,17 +1,16 @@
 using Aeon_Web.Models.Entities;
-using Aeon_Web.Models.Entities.Resume;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Aeon_Web.Areas.Project.Pages.Jobs;
 
 public class Details : PageModel
 {
-    public JobVacancy Job { get; set; }
+    public Vacancy Job { get; set; }
 
     public void OnGet(Guid id)
     {
         // Замените на реальное получение данных из БД
-        Job = new JobVacancy
+        Job = new Vacancy
         {
             Id = id,
             Title = "Senior .NET Developer",
