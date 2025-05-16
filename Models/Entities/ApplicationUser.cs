@@ -4,7 +4,13 @@ namespace Aeon_Web.Models.Entities;
 
 public class ApplicationUser : IdentityUser<Guid>
 {
-    public override Guid Id { get; set; }
+    public override required Guid Id { get; set; }
+    
+    public required Guid RoleId { get; set; }
 
-    public Resume? Resume { get; set; }
+    public Guid ResumeId { get; set; }
+    
+    public virtual IdentityRole<Guid> Role { get; set; }
+    
+    public virtual Resume? Resume { get; set; }
 }
