@@ -1,0 +1,44 @@
+@page
+@model Aeon_Web.Areas.Project.Pages.Jobs.Swipe
+@{
+    ViewData["Title"] = "Job Swipe";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="~/css/areas/project/swipe.css"/>
+<link rel="stylesheet" href="~/css/areas/project/star.css"/>
+<script src="~/js/areas/project/swipe.js"></script>
+<script src="~/js/render-stars.js"></script>
+
+<div class="body">
+    <div class="card-container" id="cardContainer">
+        @foreach (var vacancy in Model.Vacancies)
+        {
+            <div class="job-card">
+                <div style="max-height: 85%">
+                    <h2>@vacancy.Title</h2>
+                    @*<p><strong>@job.CompanyName</strong> — @job.Location</p>*@
+                    <div class="star-display" data-rating="@vacancy.DifficultyLevel">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <span class="star" data-star="@i"></span>
+                        }
+                    </div>
+                    <p class="job-desc">@vacancy.Description</p>
+                    <div class="skills">
+                        @foreach (var skill in vacancy.SkillsRequired)
+                        {
+                            <div class="skill">@skill</div>
+                        }
+                    </div>
+                </div>
+                <div class="actions">
+                    <button class="dislike" onclick="swipe(this, 'left')" title="Dislike"><i class="fas fa-times"></i>
+                    </button>
+                    <button class="like" onclick="swipe(this, 'right')" title="Like"><i class="fas fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
