@@ -9,11 +9,13 @@ public class Vacancy
     
     public byte DifficultyLevel { get; set; }
 
-    public List<Skill> SkillsRequired { get; set; } = [];
+    public virtual List<Skill> SkillsRequired { get; set; } = [];
     
     public DateTime PostedDate { get; set; } = DateTime.UtcNow;
     
     public DateTime? ExpirationDate { get; set; }
     
     public ContactInfo Contact { get; set; } = new();
+
+    public virtual ICollection<ApplicationUser> FavoritedByUsers { get; set; } = new List<ApplicationUser>();
 }

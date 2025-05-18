@@ -10,9 +10,7 @@ public class Resume
     
     public string Summary { get; set; } = string.Empty;
     
-    public List<Guid> SkillsId { get; set; } = new();
+    public virtual ICollection<Skill> Skills { get; set; } = new List<Skill>();
     
     public ContactInfo Contact { get; set; } = new();
-    
-    public virtual List<Skill> Skills { get; set; }
 }
