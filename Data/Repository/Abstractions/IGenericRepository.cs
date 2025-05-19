@@ -12,9 +12,9 @@ public interface IGenericRepository<TEntity> where TEntity : class
 
     public Task CreateAsync(TEntity entity);
 
-    public Task DeleteAsync(object id);
+    public Task Delete(object id);
 
-    public Task DeleteAsync(TEntity entityToDelete);
+    public void Delete(TEntity entityToDelete);
 
     public Task UpdateAsync(TEntity entityToUpdate);
 }
