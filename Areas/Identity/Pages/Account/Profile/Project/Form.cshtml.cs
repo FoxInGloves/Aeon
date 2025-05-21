@@ -6,46 +6,61 @@ namespace Aeon_Web.Areas.Project.Pages.Jobs;
 
 public class FormModel : PageModel
 {
-    [BindProperty]
-    public Vacancy Job { get; set; } = new();
+    [BindProperty] 
+    public Vacancy Vacancy { get; set; }
 
-    [BindProperty]
+    public bool IsEdit { get; set; }
+
+    [BindProperty] 
     public string SkillsRaw { get; set; } = "";
 
     public void OnGet(Guid? id)
     {
         if (id.HasValue)
         {
-            // Здесь загрузи вакансию из базы
-            Job = LoadJobById(id.Value);
-            SkillsRaw = string.Join(", ", Job.SkillsRequired);
+            IsEdit = true;
+
+            var vacancy = LoadVacancyById(id.Value);
+            if (vacancy is null)
+            {
+                //TODO добавить StatusMessage
+            }
+
+            SkillsRaw = string.Join(", ", Vacancy.VacancySkills);
+        }
+        else
+        {
+            IsEdit = false;
+            Vacancy = new Vacancy
+            {
+                Id = Guid.NewGuid()
+            };
         }
     }
 
     public IActionResult OnPost()
     {
-        Job.SkillsRequired = SkillsRaw
+        /*Job.SkillsRequired = SkillsRaw
             .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-            .ToList();
+            .ToList();*/
 
         if (!ModelState.IsValid)
             return Page();
 
-        SaveJob(Job); // сохранить или обновить
+        SaveJob(Vacancy); // сохранить или обновить
 
         return RedirectToPage("/Jobs");
     }
 
-    private Vacancy LoadJobById(Guid id)
+    private Vacancy? LoadVacancyById(Guid id)
     {
         // Заглушка
         return new Vacancy
         {
-            Id = id,
+            Id = Guid.NewGuid(),
             Title = "Sample Job",
             DifficultyLevel = 5,
             Description = "Job description...",
-            SkillsRequired = new List<string> { "C#", "Razor", "HTML" },
             Contact = new ContactInfo { Email = "test@example.com" }
         };
     }

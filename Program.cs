@@ -1,6 +1,11 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Aeon_Web.Data;
+using Aeon_Web.Data.Repository;
+using Aeon_Web.Data.Repository.Abstractions;
+using Aeon_Web.Models.Entities;
+using Aeon_Web.Models.Managers;
+using Aeon_Web.Services;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,12 +13,23 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
                        throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
+    options.UseLazyLoadingProxies().UseNpgsql(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+    {
+        options.User.RequireUniqueEmail = true;
+        options.SignIn.RequireConfirmedAccount = true;
+    })
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultUI()
+    .AddDefaultTokenProviders()
+    .AddSignInManager<ApplicationSignInManager<ApplicationUser>>();
+
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ResumeService, ResumeService>();
 
 var app = builder.Build();
 

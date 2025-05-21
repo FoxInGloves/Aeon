@@ -3,21 +3,28 @@
 
 @{
     ViewData["Title"] = "Job Details";
-    var job = Model.Job;
+    var vacancy = Model.Job;
 }
 
 <link href="https://cdn.jsdelivr.net/npm/lucide@latest" rel="stylesheet" />
 <link rel="stylesheet" href="~/css/areas/project/details.css"/>
+<link rel="stylesheet" href="~/css/areas/project/star.css"/>
+<script src="~/js/render-stars.js"></script>
 
 <div class="body">
     <section class="job-detail-container animate-fade">
         <div class="job-header">
-            <h1 class="job-title">@job.Title</h1>
+            <h1 class="job-title">@vacancy.Title</h1>
         </div>
 
         <div class="job-meta">
-            <span class="badge"><i data-lucide="briefcase"></i> @job.DifficultyLevel</span>
-            <span class="badge"><i data-lucide="calendar-days"></i> @job.PostedDate.ToString("dd MMM yyyy")</span>
+            <div class="star-display" data-rating="@vacancy.DifficultyLevel">
+                @for (var i = 1; i <= 5; i++)
+                {
+                    <span class="star" data-star="@i"></span>
+                }
+            </div>
+            <span class="badge"><i data-lucide="calendar-days"></i> @vacancy.PostedDate.ToString("dd MMM yyyy")</span>
             @*@if (job.SalaryFrom.HasValue || job.SalaryTo.HasValue)
         {
             <span class="badge">
@@ -29,13 +36,13 @@
 
         <div class="section">
             <h2><i data-lucide="file-text"></i> Job Description</h2>
-            <p>@job.Description</p>
+            <p>@vacancy.Description</p>
         </div>
 
         <div class="section">
             <h2><i data-lucide="list-checks"></i> Required Skills</h2>
             <ul class="skills">
-                @foreach (var skill in job.SkillsRequired)
+                @foreach (var skill in vacancy.VacancySkills)
                 {
                     <li>@skill</li>
                 }
@@ -44,10 +51,10 @@
 
         <div class="section">
             <h2><i data-lucide="mail"></i> Contact</h2>
-            <p>Email: <a href="mailto:@job.Contact.Email">@job.Contact.Email</a></p>
-            @if (!string.IsNullOrWhiteSpace(job.Contact.Phone))
+            <p>Email: <a href="mailto:@vacancy.Contact.Email">@vacancy.Contact.Email</a></p>
+            @if (!string.IsNullOrWhiteSpace(vacancy.Contact.Phone))
             {
-                <p>Phone: <a href="tel:@job.Contact.Phone">@job.Contact.Phone</a></p>
+                <p>Phone: <a href="tel:@vacancy.Contact.Phone">@vacancy.Contact.Phone</a></p>
             }
         </div>
 

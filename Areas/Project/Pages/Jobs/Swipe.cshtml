@@ -26,7 +26,7 @@
                     </div>
                     <p class="job-desc">@vacancy.Description</p>
                     <div class="skills">
-                        @foreach (var skill in vacancy.SkillsRequired)
+                        @foreach (var skill in vacancy.VacancySkills)
                         {
                             <div class="skill">@skill</div>
                         }

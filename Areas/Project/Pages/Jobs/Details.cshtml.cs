@@ -12,11 +12,10 @@ public class Details : PageModel
         // Замените на реальное получение данных из БД
         Job = new Vacancy
         {
-            Id = id,
+            Id = Guid.NewGuid(),
             Title = "Senior .NET Developer",
             Description = "We're looking for an experienced .NET developer to join our team.",
             DifficultyLevel = 1,
-            SkillsRequired = new List<string> { "C#", "ASP.NET Core", "Azure", "SQL" },
             PostedDate = DateTime.UtcNow,
             Contact = new ContactInfo
             {

@@ -2,11 +2,13 @@
 @model Aeon_Web.Areas.Project.Pages.Jobs.FormModel
 
 @{
-    var isEdit = Model.Job.Id != Guid.Empty;
+    var isEdit = Model.IsEdit;
     ViewData["Title"] = isEdit ? "Edit Job Vacancy" : "Create Job Vacancy";
 }
 
-<link rel="stylesheet" href="~/css/areas/project/form.css"/>
+<link rel="stylesheet" href="~/css/areas/identity/account/profile/project/form.css"/>
+<link rel="stylesheet" href="~/css/areas/project/star.css"/>
+<script src="~/js/render-stars.js"></script>
 
 <section class="form-container">
     <h1>@(isEdit ? "Edit Vacancy" : "Create New Vacancy")</h1>
@@ -14,7 +16,7 @@
     <form method="post">
         <div class="form-group">
             <label>Заголовок</label>
-            <input asp-for="Job.Title" class="input" placeholder="Frontend Developer" />
+            <input asp-for="Vacancy.Title" class="input" placeholder="Frontend Developer" />
         </div>
         
         <div class="form-group">
@@ -39,17 +41,17 @@
 
         <div class="form-group">
             <label>Description</label>
-            <textarea asp-for="Job.Description" class="input textarea" rows="5" placeholder="Describe the responsibilities and requirements..."></textarea>
+            <textarea asp-for="Vacancy.Description" class="input textarea" rows="5" placeholder="Describe the responsibilities and requirements..."></textarea>
         </div>
 
         <div class="form-group">
             <label>Email для связи</label>
-            <input asp-for="Job.Contact.Email" class="input" placeholder="hr@company.com" />
+            <input asp-for="Vacancy.Contact.Email" class="input" placeholder="hr@company.com" />
         </div>
 
         <div class="form-group">
             <label>Телефон для связи</label>
-            <input asp-for="Job.Contact.Phone" class="input" placeholder="+1 234 567 89" />
+            <input asp-for="Vacancy.Contact.Phone" class="input" placeholder="+1 234 567 89" />
         </div>
 
         <div class="form-actions">

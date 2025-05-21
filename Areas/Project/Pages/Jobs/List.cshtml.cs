@@ -20,7 +20,6 @@ public class ListModel : PageModel
                     Title = "Backend Developer",
                     DifficultyLevel = 1,
                     PostedDate = DateTime.UtcNow.AddDays(-2),
-                    SkillsRequired = ["c#", "c", "java", "RabbitMQ"]
                 },
                 new Vacancy
                 {

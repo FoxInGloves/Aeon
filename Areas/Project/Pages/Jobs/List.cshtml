@@ -6,31 +6,37 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <link rel="stylesheet" href="~/css/areas/project/list.css"/>
+<link rel="stylesheet" href="~/css/areas/project/star.css"/>
+<script src="~/js/render-stars.js"></script>
 
 <div class="body">
     <section class="container">
         <h1 class="headline">🔥 Актуальные вакансии</h1>
         <div class="job-grid">
-            @foreach (var job in Model.Vacancies)
+            @foreach (var vacancy in Model.Vacancies)
             {
                 <div class="job-card">
                     <a asp-area="Project" asp-page="/Jobs/Details">
                         <div class="card-header">
-                            <h2>@job.Title</h2>
+                            <h2>@vacancy.Title</h2>
                             @*<span class="company">@job.CompanyName</span>*@
                         </div>
-                        <p class="description">@job.Description.Substring(0, Math.Min(120, job.Description.Length))...</p>
                         <div class="meta">
-                            <span class="badge">@job.DifficultyLevel</span>
-                            @*<span class="location">@job.Location</span>*@
+                            <div class="star-display" data-rating="@vacancy.DifficultyLevel">
+                                @for (var i = 1; i <= 5; i++)
+                                {
+                                    <span class="star" data-star="@i"></span>
+                                }
+                            </div>
                         </div>
+                        <p class="description">@vacancy.Description.Substring(0, Math.Min(120, vacancy.Description.Length))...</p>
                         <div class="skills">
-                            @foreach (var skill in job.SkillsRequired.Take(5))
+                            @foreach (var skill in vacancy.VacancySkills.Take(5))
                             {
                                 <span class="skill">@skill</span>
                             }
                         </div>
-                        <a class="view-button" asp-page="/Job/Details" asp-route-id="@job.Id">Подробнее</a>
+                        <a class="view-button" asp-page="/Job/Details" asp-route-id="@vacancy.Id">Подробнее</a>
                     </a>
                 </div>
             }

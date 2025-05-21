@@ -1,0 +1,7 @@
+.skill {
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+}

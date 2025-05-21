@@ -1,15 +1,31 @@
-@inject SignInManager<IdentityUser> SignInManager
+@using Aeon_Web.Models.Entities
+@inject SignInManager<ApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
+
+<link rel="stylesheet" href="~/css/areas/identity/account/manage/index.css"/>
+
 <ul class="nav nav-pills flex-column">
-    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a>
+    </li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a>
+    </li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password"
+                            asp-page="./ChangePassword">Password</a></li>
     @if (hasExternalLogins)
     {
-        <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
+        <li id="external-logins" class="nav-item"><a id="external-login"
+                                                     class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)"
+                                                     asp-page="./ExternalLogins">External logins</a></li>
     }
-    <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"
+                            id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data"
+                            asp-page="./PersonalData">Personal data</a></li>
 </ul>
+<form class="form-inline mt-5 logout" asp-area="Identity" asp-page="/Account/Logout" 
+      asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"
+      onsubmit="return confirm('Вы уверены, что хотите выйти из аккаунта?')">
+    <button type="submit" class="nav-link btn-danger btn btn-link text-light" onclick="">Выйти</button>
+</form>
