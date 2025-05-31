@@ -12,6 +12,33 @@
 <div class="body">
     <section class="container">
         <h1 class="headline">🔥 Актуальные вакансии</h1>
+        <form method="get" class="filter-bar">
+            <div class="search-group">
+                <i class="fas fa-search"></i>
+                <input type="text" name="SearchQuery" value="@Model.SearchQuery" placeholder="Поиск проектов..." />
+            </div>
+
+            <div class="select-group">
+                <i class="fas fa-star"></i>
+                <select name="MaxDifficulty">
+                    <option value="">Любая сложность</option>
+                    @for (var i = 1; i <= 5; i++)
+                    {
+                        
+                        var i1 = i;
+                        <option value="@i" selected="@(Model.MaxDifficulty == i1)">
+                            До @i1 ⭐
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <button type="submit" class="filter-btn">
+                Найти
+            </button>
+        </form>
+
+        @*TODO добавить проверку на null*@
         <div class="job-grid">
             @foreach (var vacancy in Model.Vacancies)
             {
@@ -19,7 +46,6 @@
                     <a asp-area="Project" asp-page="/Jobs/Details">
                         <div class="card-header">
                             <h2>@vacancy.Title</h2>
-                            @*<span class="company">@job.CompanyName</span>*@
                         </div>
                         <div class="meta">
                             <div class="star-display" data-rating="@vacancy.DifficultyLevel">
@@ -29,7 +55,7 @@
                                 }
                             </div>
                         </div>
-                        <p class="description">@vacancy.Description.Substring(0, Math.Min(120, vacancy.Description.Length))...</p>
+                        <p class="description">@(vacancy.Description[..Math.Min(120, vacancy.Description.Length)])...</p>
                         <div class="skills">
                             @foreach (var skill in vacancy.VacancySkills.Take(5))
                             {

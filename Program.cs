@@ -5,6 +5,7 @@ using Aeon_Web.Data.Repository.Abstractions;
 using Aeon_Web.Models.Entities;
 using Aeon_Web.Models.Managers;
 using Aeon_Web.Services;
+using Aeon_Web.Services.Abstractions;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,13 +31,15 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ResumeService, ResumeService>();
+builder.Services.AddScoped<ILikeService, LikeService>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint();
+    //app.UseMigrationsEndPoint();
+    app.UseDeveloperExceptionPage();
 }
 else
 {

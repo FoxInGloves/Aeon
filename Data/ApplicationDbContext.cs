@@ -111,5 +111,37 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
             .HasOne(uv => uv.Vacancy)
             .WithMany(v => v.UserVacancies)
             .HasForeignKey(uv => uv.VacancyId);
+        
+        builder.Entity<Like>(entity =>
+        {
+            entity.HasKey(l => l.Id);
+
+            entity.Property(l => l.Id)
+                .ValueGeneratedNever(); // если ты сам генерируешь Guid
+
+            entity.Property(l => l.FromEntityId)
+                .IsRequired();
+
+            entity.Property(l => l.FromEntityType)
+                .IsRequired()
+                .HasConversion<string>(); // enum -> string
+
+            entity.Property(l => l.ToEntityId)
+                .IsRequired();
+
+            entity.Property(l => l.ToEntityType)
+                .IsRequired()
+                .HasConversion<string>(); // enum -> string
+
+            entity.Property(l => l.IsMatch)
+                .IsRequired();
+
+            /*entity.Property(l => l.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP"); // или DateTime.UtcNow в C#*/
+
+            // Один лайк от сущности к сущности — уникальный
+            entity.HasIndex(l => new { l.FromEntityId, l.FromEntityType, l.ToEntityId, l.ToEntityType })
+                .IsUnique();
+        });
     }
 }

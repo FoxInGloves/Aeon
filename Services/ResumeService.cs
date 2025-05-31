@@ -14,6 +14,12 @@ public class ResumeService
         _unitOfWork = unitOfWork;
     }
 
+    /// <summary>
+    /// Deletes a resume and its associated data, including related skills, from the database.
+    /// </summary>
+    /// <param name="resumeId">The unique identifier of the resume to be deleted. If null, the method will perform no action.</param>
+    /// <returns>A task that represents the asynchronous delete operation.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when the resume with the provided <paramref name="resumeId"/> is not found.</exception>
     public async Task DeleteResumeAsync(Guid? resumeId)
     {
         if (resumeId is null)
@@ -22,8 +28,7 @@ public class ResumeService
         var resume = await _unitOfWork.ResumeRepository.GetByIdAsync(resumeId);
         if (resume is null)
             throw new InvalidOperationException("Resume not found");
-
-        // Получаем связи
+        
         var resumeSkills = _unitOfWork.ResumeSkillRepository
             .FindAll(rs => rs.ResumeId == resumeId).ToList();
 
@@ -31,11 +36,9 @@ public class ResumeService
         {
             _unitOfWork.ResumeSkillRepository.DeleteRange(resumeSkills);
         }
-
-        // Удаляем само резюме
+        
         _unitOfWork.ResumeRepository.Delete(resume);
-
-        // Очищаем неиспользуемые навыки
+        
         var usedSkillIds = resumeSkills.Select(rs => rs.SkillId).Distinct();
 
         foreach (var skillId in usedSkillIds)
@@ -53,8 +56,7 @@ public class ResumeService
                 _unitOfWork.SkillRepository.Delete(skill);
             }
         }
-
-        // Сохраняем изменения
+        
         await _unitOfWork.SaveChangesAsync();
     }
 

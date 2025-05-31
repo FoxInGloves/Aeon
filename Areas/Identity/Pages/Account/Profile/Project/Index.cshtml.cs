@@ -18,7 +18,9 @@ public class IndexModel : PageModel
     }
 
     [BindProperty] 
-    public Vacancy OwnedVacancy { get; set; }
+    public Vacancy? OwnedVacancy { get; set; }
+    
+    public IEnumerable<Skill> Skills { get; set; }
 
     public async Task<IActionResult> OnGetAsync()
     {
@@ -28,11 +30,30 @@ public class IndexModel : PageModel
         OwnedVacancy = new Vacancy
         {
             Id = Guid.NewGuid(),
-            Description = "Ну типа описание",
+            Description = "Лучший сервис",
             DifficultyLevel = 3,
-            Title = "Developer Oslik"
+            Title = "Aeon",
         };
 
+        Skills = new[]
+        {
+            new Skill()
+            {
+                Id = Guid.NewGuid(),
+                Name = "C#"
+            },
+            new Skill()
+            {
+                Id = Guid.NewGuid(),
+                Name = "Git"
+            },
+            new Skill()
+            {
+                Id = Guid.NewGuid(),
+                Name = "Asp"
+            }
+        };
+        
         /*if (user.OwnedVacancyId == null)
         {
             return RedirectToPage("/Vacancy/Create"); // Или предложение создать

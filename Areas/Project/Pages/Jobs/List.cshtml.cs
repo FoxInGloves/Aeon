@@ -1,4 +1,5 @@
 using Aeon_Web.Models.Entities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Aeon_Web.Areas.Project.Pages.Jobs;
@@ -6,6 +7,12 @@ namespace Aeon_Web.Areas.Project.Pages.Jobs;
 public class ListModel : PageModel
 {
     public List<Vacancy>? Vacancies { get; set; } = new();
+    
+    [BindProperty(SupportsGet = true)]
+    public string? SearchQuery { get; set; }
+    
+    [BindProperty(SupportsGet = true)]
+    public int? MaxDifficulty { get; set; }
 
     public void OnGet()
     {

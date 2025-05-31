@@ -37,8 +37,4 @@
       <_ContentIncludedByDefault Remove="Views\Vacancies\Index.cshtml" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Services\Abstractions\" />
-    </ItemGroup>
-
 </Project>

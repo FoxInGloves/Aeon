@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Aeon_Web.Models.Entities;
@@ -5,7 +6,9 @@ namespace Aeon_Web.Models.Entities;
 [Owned]
 public class ContactInfo
 {
-    public string Email { get; set; } = string.Empty;
-    public string Phone { get; set; } = string.Empty;
-    public string Website { get; set; } = string.Empty;
+    public string Email { get; set; }
+    
+    public string? Phone { get; set; }
+    
+    public string? Website { get; set; }
 }

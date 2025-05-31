@@ -5,6 +5,9 @@
     var project = Model.OwnedVacancy;
 }
 
+<link rel="stylesheet" href="~/css/areas/project/star.css"/>
+<script src="~/js/render-stars.js"></script>
+
 <div class="container py-5">
     <div class="bg-white shadow rounded p-5">
         <h1 class="display-5 fw-bold mb-4 text-center">Мой проект</h1>
@@ -23,18 +26,24 @@
                     <h2 class="h3">@project.Title</h2>
                     <p class="text-muted">@project.Description</p>
 
+                    <div class="star-display" data-rating="@project.DifficultyLevel">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <span class="star" data-star="@i"></span>
+                        }
+                    </div>
                     <div class="mt-4">
                         <h5 class="mb-2">Навыки, необходимые для проекта:</h5>
                         <div class="d-flex flex-wrap gap-2">
-                            @foreach (var skill in project.VacancySkills)
+                            @foreach (var skill in Model.Skills)
                             {
-                                <span class="badge bg-info text-dark p-2">@skill.Skill.Name</span>
+                                <span class="badge bg-info text-dark p-2">@skill.Name</span>
                             }
                         </div>
                     </div>
 
                     <div class="mt-4">
-                        <a class="btn btn-outline-secondary me-2" asp-page="/Vacancy/Edit" asp-route-id="@project.Id">
+                        <a class="btn btn-outline-secondary me-2" asp-page="./Form" asp-route-id="@project.Id">
                             <i class="bi bi-pencil-square"></i> Редактировать
                         </a>
                         <a class="btn btn-outline-danger" asp-page="/Vacancy/Delete" asp-route-id="@project.Id">

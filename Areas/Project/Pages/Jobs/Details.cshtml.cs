@@ -1,10 +1,20 @@
 using Aeon_Web.Models.Entities;
+using Aeon_Web.Services.Abstractions;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Aeon_Web.Areas.Project.Pages.Jobs;
 
-public class Details : PageModel
+public class DetailsModel : PageModel
 {
+    private readonly ILogger<DetailsModel> _logger;
+    private readonly ILikeService _likeService;
+
+    public DetailsModel(ILogger<DetailsModel> logger, ILikeService likeService)
+    {
+        _logger = logger;
+        _likeService = likeService;
+    }
+    
     public Vacancy Job { get; set; }
 
     public void OnGet(Guid id)
@@ -23,5 +33,10 @@ public class Details : PageModel
                 Phone = "+123456789"
             }
         };
+    }
+
+    public void OnLikeAsync()
+    {
+        
     }
 }

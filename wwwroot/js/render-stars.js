@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    renderStars(); // начальная отрисовка
+    renderStars();
 });
 
 function renderStars() {

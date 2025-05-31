@@ -2,7 +2,7 @@ using Aeon_Web.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Aeon_Web.Areas.Project.Pages.Jobs;
+namespace Aeon_Web.Areas.Identity.Pages.Account.Profile.Project;
 
 public class FormModel : PageModel
 {
@@ -13,7 +13,7 @@ public class FormModel : PageModel
 
     [BindProperty] 
     public string SkillsRaw { get; set; } = "";
-
+    
     public void OnGet(Guid? id)
     {
         if (id.HasValue)
@@ -24,9 +24,11 @@ public class FormModel : PageModel
             if (vacancy is null)
             {
                 //TODO добавить StatusMessage
+                return;
             }
 
-            SkillsRaw = string.Join(", ", Vacancy.VacancySkills);
+            Vacancy = vacancy;
+            SkillsRaw = string.Join(", ", vacancy.VacancySkills);
         }
         else
         {

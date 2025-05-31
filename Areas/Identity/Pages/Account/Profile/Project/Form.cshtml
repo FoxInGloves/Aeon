@@ -1,5 +1,5 @@
 @page
-@model Aeon_Web.Areas.Project.Pages.Jobs.FormModel
+@model Aeon_Web.Areas.Identity.Pages.Account.Profile.Project.FormModel
 
 @{
     var isEdit = Model.IsEdit;
@@ -30,7 +30,7 @@
                     <span class="star" data-value="5"></span>
                 </div>
             </div>
-            <input type="hidden" id="difficulty" name="Difficulty" value="0" />
+            <input type="hidden" id="difficulty" asp-for="Vacancy.DifficultyLevel" value="@Model.Vacancy.DifficultyLevel" />
 
         </div>
 
@@ -66,13 +66,14 @@
     const input = document.getElementById("difficulty");
     const stars = ratingEl.querySelectorAll(".star");
 
-    function setRating(rating) {
-        input.value = rating;
+    // Устанавливает визуальное отображение в звездах от 0.5 до 5, а значение сохраняется как 1–10
+    function setRatingFromValue(rawValue) {
+        const starRating = rawValue / 2; // Преобразуем в 0.5–5
         stars.forEach((star, i) => {
             const full = i + 1;
-            if (rating >= full) {
+            if (starRating >= full) {
                 star.style.backgroundPosition = "left";
-            } else if (rating >= full - 0.5) {
+            } else if (starRating >= full - 0.5) {
                 star.style.backgroundPosition = "center";
             } else {
                 star.style.backgroundPosition = "right";
@@ -85,16 +86,18 @@
             const rect = star.getBoundingClientRect();
             const isHalf = e.clientX - rect.left < rect.width / 2;
             const rating = isHalf ? i + 0.5 : i + 1;
-            setRating(rating);
-            input.value = rating;
+            const scaledRating = rating * 2; // Преобразуем 0.5–5 → 1–10
+            input.value = scaledRating;
+            setRatingFromValue(scaledRating);
         });
     });
 
     ratingEl.addEventListener("mouseleave", () => {
-        const rating = parseFloat(input.value) || 0;
-        setRating(rating);
+        const value = parseInt(input.value) || 0;
+        setRatingFromValue(value);
     });
-    
-    setRating(0);
+
+    // Инициализация при загрузке
+    setRatingFromValue(parseInt(input.value) || 0)
 </script>
 

@@ -7,11 +7,11 @@
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item">
+        @*<li class="nav-item">
             <a class="nav-link btn btn-link" asp-area="Project" asp-page="/Jobs/Form">
                 Избранное
             </a>
-        </li>
+        </li>*@
         <li class="nav-item">
             <a class="nav-link profile-nav" asp-area="Identity"
                asp-page="/Account/Profile/Index" asp title="Profile">

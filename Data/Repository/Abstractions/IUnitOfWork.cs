@@ -18,5 +18,7 @@ public interface IUnitOfWork
     
     public VacancySkillRepository VacancySkillRepository { get; }
     
+    public IGenericRepository<Like> LikeRepository { get; }
+    
     public Task SaveChangesAsync();
 }
