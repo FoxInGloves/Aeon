@@ -28,9 +28,16 @@ public class IndexModel : PageModel
     
     public IEnumerable<Skill> Skills { get; set; }
     
-    public async Task OnGet()
+    public async Task<IActionResult> OnGet()
     {
-        var user = await LoadUser();
+        var user = await _userManager.GetUserAsync(User);
+
+        if (user is null)
+        {
+            //TODO что то делать, если пользователь не найден
+            _logger.LogError("User not found");
+            return Challenge();
+        }
 
         Resume = user.Resume;
 
@@ -74,18 +81,6 @@ public class IndexModel : PageModel
             }
         };*/
 
-    }
-
-    private async Task<ApplicationUser> LoadUser()
-    {
-        var user = await _userManager.GetUserAsync(User);
-
-        if (user is null)
-        {
-            //TODO что то делать, если пользователь не найден
-            _logger.LogError("User not found");
-        }
-        
-        return user;
+        return Page();
     }
 }

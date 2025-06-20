@@ -1,12 +1,12 @@
 @page
-@model Aeon_Web.Areas.Project.Pages.Jobs.DetailsModel
+@model Aeon_Web.Areas.Project.Pages.Job.DetailsModel
 
 @{
     ViewData["Title"] = "Job Details";
-    var vacancy = Model.Job;
+    var vacancy = Model.Vacancy;
 }
 
-<link href="https://cdn.jsdelivr.net/npm/lucide@latest" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/lucide@latest" rel="stylesheet"/>
 <link rel="stylesheet" href="~/css/areas/project/details.css"/>
 <link rel="stylesheet" href="~/css/areas/project/star.css"/>
 <script src="~/js/render-stars.js"></script>
@@ -44,24 +44,31 @@
             <ul class="skills">
                 @foreach (var skill in vacancy.VacancySkills)
                 {
-                    <li>@skill</li>
+                    <li>@skill.Skill?.Name</li>
                 }
             </ul>
         </div>
 
-        <div class="section">
-            <h2><i data-lucide="mail"></i> Contact</h2>
-            <p>Email: <a href="mailto:@vacancy.Contact.Email">@vacancy.Contact.Email</a></p>
-            @if (!string.IsNullOrWhiteSpace(vacancy.Contact.Phone))
-            {
-                <p>Phone: <a href="tel:@vacancy.Contact.Phone">@vacancy.Contact.Phone</a></p>
-            }
-        </div>
+        @if (Model.IsMatch)
+        {
+            <div class="section">
+                <h2><i data-lucide="mail"></i> Contact</h2>
+                <p>Email: <a href="mailto:@vacancy.Contact.Email">@vacancy.Contact.Email</a></p>
+                @if (!string.IsNullOrWhiteSpace(vacancy.Contact.Phone))
+                {
+                    <p>Phone: <a href="tel:@vacancy.Contact.Phone">@vacancy.Contact.Phone</a></p>
+                }
+            </div>
+        }
 
-        <div class="actions">
-            <button class="btn-primary">Apply Now</button>
-            <button class="btn-secondary" onclick="history.back()">Back</button>
-        </div>
+        <form class="actions" method="post" asp-page-handler="Like">
+            @if (!Model.IsLiked)
+            {
+                <input type="hidden" name="vacancyId" value="@vacancy.Id"/>
+                <button type="submit" class="btn-primary">Откликнуться</button>
+            }
+            <button class="btn-secondary" onclick="history.back()">Назад</button>
+        </form>
     </section>
 </div>
 

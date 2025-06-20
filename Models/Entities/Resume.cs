@@ -3,8 +3,10 @@ namespace Aeon_Web.Models.Entities;
 public class Resume
 {
     public required Guid Id { get; set; }
-
+    
     public bool IsVisible { get; set; }
+    
+    public string FullName { get; set; }
     
     public string Title { get; set; } = string.Empty;
     

@@ -1,0 +1,112 @@
+@page
+@using Aeon_Web.Models.Entities
+@model Aeon_Web.Areas.Project.Pages.Likes.IndexModel
+@{
+    ViewData["Title"] = "Мои лайки";
+}
+
+<h1>Входящие лайки</h1>
+
+<div class="likes-container">
+    @if (Model.Likes.Count == 0)
+    {
+        <h4 style="color: #666">Пока нет лайков</h4>
+    }
+    else
+    {
+        @foreach (var like in Model.Likes)
+        {
+            <div class="like-card">
+                @if (like.TargetType == LikeEntityType.Vacancy)
+                {
+                    <a asp-area="Project" asp-page="/Resume/Details" asp-route-resumeId="@like.FromEntityId">
+                        @if (like.IsMatch)
+                        {
+                            <div class="like-header">@like.FromEntityName поставил <strong>обратный</strong> лайк
+                                вашему проекту
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="like-header">@like.FromEntityName поставил лайк вашему проекту</div>
+                        }
+                        <div class="like-type">
+                            Тип: @like.TargetType «@like.TargetTitle»
+                        </div>
+                        <div class="like-time">
+                            @GetTimeAgo(like.LikedAt)
+                        </div>
+                    </a>
+                }
+                else
+                {
+                    <a asp-area="Project" asp-page="/Job/Details" asp-route-vacancyId="@like.FromEntityId">
+                        <div class="like-header">
+                            @like.FromEntityName поставил лайк вашему резюме
+                        </div>
+                        <div class="like-type">
+                            Тип: @like.TargetType «@like.TargetTitle»
+                        </div>
+                        <div class="like-time">
+                            @GetTimeAgo(like.LikedAt)
+                        </div>
+                    </a>
+                }
+            </div>
+        }
+    }
+</div>
+
+<style>
+    .likes-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        max-width: 600px;
+        margin: 20px auto;
+    }
+
+    .like-card {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 16px 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .like-header {
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .like-type {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .like-time {
+        font-size: 12px;
+        color: #aaa;
+    }
+</style>
+
+@functions {
+
+    private string GetTimeAgo(DateTime dateTime)
+    {
+        var span = DateTime.Now - dateTime;
+
+        if (span.TotalMinutes < 1)
+            return "только что";
+        if (span.TotalMinutes < 60)
+            return $"{(int)span.TotalMinutes} мин назад";
+        if (span.TotalHours < 24)
+            return $"{(int)span.TotalHours} ч назад";
+        if (span.TotalDays < 2)
+            return "вчера";
+        return dateTime.ToString("dd.MM.yyyy");
+    }
+
+}

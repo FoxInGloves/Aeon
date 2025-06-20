@@ -5,19 +5,23 @@ public class Like
     public required Guid Id { get; set; }
 
     
-    public required Guid FromEntityId { get; set; }
-    public required LikeEntityType FromEntityType { get; set; }
+    public required Guid FromUserId { get; set; }
+    
+    public LikeEntityType FromEntityType { get; set; }
 
-    public required Guid ToEntityId { get; set; }
-    public required LikeEntityType ToEntityType { get; set; }
+    public required string FromEntityName { get; set; } 
+    
+    public required Guid ToUserId { get; set; }
+    
+    public required string ToEntityTitle { get; set; }
+    
+    public required LikeEntityType TargetType { get; set; }
 
-    public bool IsMatch { get; set; } = false;
+    public bool IsMatch { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-}
+    
+    public virtual ApplicationUser FromUser { get; set; }
 
-public enum LikeEntityType
-{
-    Vacancy,
-    User
+    public virtual ApplicationUser ToUser { get; set; }
 }

@@ -9,6 +9,11 @@ public class GenericRepository<TEntity>(ApplicationDbContext context) : IGeneric
 {
     protected readonly DbSet<TEntity> EntityDbSet = context.Set<TEntity>();
 
+    public IQueryable<TEntity> GetQuery()
+    {
+        return EntityDbSet.AsQueryable();
+    }
+    
     public async Task<IEnumerable<TEntity>> GetAsync(
         Expression<Func<TEntity, bool>>? filter = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null)

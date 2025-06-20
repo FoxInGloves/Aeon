@@ -1,0 +1,27 @@
+@model List<Aeon_Web.Models.Entities.Vacancy>
+
+@foreach (var vacancy in Model)
+{
+    <div class="job-card" data-vacancy-id="@vacancy.Id">
+        <div style="max-height: 85%">
+            <h2>@vacancy.Title</h2>
+            <div class="star-display" data-rating="@vacancy.DifficultyLevel">
+                @for (var i = 1; i <= 5; i++)
+                {
+                    <span class="star" data-star="@i"></span>
+                }
+            </div>
+            <p class="job-desc">@vacancy.Description</p>
+            <div class="skills">
+                @foreach (var skill in vacancy.VacancySkills)
+                {
+                    <div class="skill">@skill.Skill?.Name</div>
+                }
+            </div>
+        </div>
+        <div class="actions">
+            <button class="dislike" onclick="swipeVacancy(this, 'left')" title="Dislike"><i class="fas fa-times"></i></button>
+            <button class="like" onclick="swipeVacancy(this, 'right')" title="Like"><i class="fas fa-heart"></i></button>
+        </div>
+    </div>
+}

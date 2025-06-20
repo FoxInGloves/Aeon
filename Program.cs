@@ -32,6 +32,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ResumeService, ResumeService>();
 builder.Services.AddScoped<ILikeService, LikeService>();
+builder.Services.AddScoped<IMapper, Mapper>();
 
 var app = builder.Build();
 

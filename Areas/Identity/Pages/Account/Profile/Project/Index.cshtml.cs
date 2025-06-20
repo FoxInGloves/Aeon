@@ -26,8 +26,17 @@ public class IndexModel : PageModel
     {
         var user = await _userManager.GetUserAsync(User);
         if (user == null) return Challenge();
+        
+        OwnedVacancy = user.OwnedVacancy;
 
-        OwnedVacancy = new Vacancy
+        var skillIds = user.OwnedVacancy?.VacancySkills.Select(vs => vs.SkillId).ToList();
+
+        var skills = skillIds is not null && skillIds.Count != 0
+            ? await _unitOfWork.SkillRepository.GetAsync(s => skillIds.Contains(s.Id))
+            : new List<Skill>();
+
+        Skills = skills;
+        /*OwnedVacancy = new Vacancy
         {
             Id = Guid.NewGuid(),
             Description = "Лучший сервис",
@@ -52,7 +61,7 @@ public class IndexModel : PageModel
                 Id = Guid.NewGuid(),
                 Name = "Asp"
             }
-        };
+        };*/
         
         /*if (user.OwnedVacancyId == null)
         {
@@ -65,5 +74,10 @@ public class IndexModel : PageModel
             .FirstOrDefaultAsync(v => v.Id == user.OwnedVacancyId);*/
 
         return Page();
+    }
+
+    public async Task OnPostDeleteAsync()
+    {
+        //TODO написать удаление проекта
     }
 }

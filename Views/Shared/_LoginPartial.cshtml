@@ -7,30 +7,29 @@
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        @*<li class="nav-item">
-            <a class="nav-link btn btn-link" asp-area="Project" asp-page="/Jobs/Form">
-                Избранное
-            </a>
-        </li>*@
+    <li class="nav-item">
+        <a class="nav-link text-light" asp-area="Project"
+           asp-page="/Likes/Index">
+            Лайки
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-light" asp-area="Identity"
+           asp-page="/Account/Profile/Index">
+            @*<img src="~/user_profile_light.svg" alt="Profile"/>*@
+            Профиль
+        </a>
+    </li>@*
         <li class="nav-item">
-            <a class="nav-link profile-nav" asp-area="Identity"
-               asp-page="/Account/Profile/Index" asp title="Profile">
-                <img src="~/user_profile_light.svg" alt="Profile"/>
-            </a>
-        </li>@*
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-light">Logout</button>
-            </form>
-        </li>*@
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@*@
     }
     else
     {
-        <li class="nav-item">
-            <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Register">Register</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Login">Login</a>
-        </li>
+    <li class="nav-item">
+        <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Register">Регистрация</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-light" asp-area="Identity" asp-page="/Account/Login">Войти</a>
+    </li>
     }
 </ul>

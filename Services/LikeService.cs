@@ -13,14 +13,14 @@ public class LikeService : ILikeService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<bool> LikeAsync(Guid fromId, LikeEntityType fromType, Guid toId, LikeEntityType toType)
+    public async Task<bool> LikeAsync(Guid fromUserId, LikeEntityType fromType, Guid toUserId, LikeEntityType toType)
     {
         // Проверка, не ставил ли уже лайк
         var existingLike = await _unitOfWork.LikeRepository
-            .GetAsync(l => l.FromEntityId == fromId &&
+            .GetAsync(l => l.FromUserId == fromUserId &&
                            l.FromEntityType == fromType &&
-                           l.ToEntityId == toId &&
-                           l.ToEntityType == toType);
+                           l.ToUserId == toUserId &&
+                           l.TargetType == toType);
 
         var enumerable = existingLike as Like[] ?? existingLike.ToArray();
 
@@ -31,23 +31,98 @@ public class LikeService : ILikeService
 
         // Проверка, есть ли обратный лайк
         var reverseLike = await _unitOfWork.LikeRepository
-            .GetAsync(l => l.FromEntityId == toId &&
+            .GetAsync(l => l.FromUserId == toUserId &&
                            l.FromEntityType == toType &&
-                           l.ToEntityId == fromId &&
-                           l.ToEntityType == fromType);
+                           l.ToUserId == fromUserId &&
+                           l.TargetType == fromType);
 
         var likes = reverseLike as Like[] ?? reverseLike.ToArray();
         var isMatch = likes.Length != 0;
 
+        string fromEntityName;
+        string toEntityName;
+        
+        var fromUser = await _unitOfWork.UserRepository.GetByIdAsync(fromUserId);
+        var toUser = await _unitOfWork.UserRepository.GetByIdAsync(toUserId);
+
+        if (fromUser is null)
+        {
+            throw new ArgumentNullException(fromUserId.ToString());
+        }
+
+        if (toUser is null)
+        {
+            throw new ArgumentNullException(toUserId.ToString());
+        }
+        
+        if (fromType == LikeEntityType.Resume)
+        {
+            if (fromUser.ResumeId is null)
+            {
+                throw new NullReferenceException(fromUser.ResumeId.ToString());
+            }
+            
+            var fromResume = await _unitOfWork.ResumeRepository.GetByIdAsync(fromUser.ResumeId);
+            if (fromResume is null)
+            {
+                throw new ArgumentNullException(fromUser.ResumeId.ToString());
+            }
+            
+            fromEntityName = fromResume.FullName;
+
+            if (toUser.OwnedVacancyId is null)
+            {
+                throw new NullReferenceException(toUser.OwnedVacancyId.ToString());
+            }
+            
+            var toVacancy = await _unitOfWork.VacancyRepository.GetByIdAsync(toUser.OwnedVacancyId);
+            if (toVacancy is null)
+            {
+                throw new NullReferenceException(toUser.OwnedVacancyId.ToString());
+            }
+
+            toEntityName = toVacancy.Title;
+        }
+        else
+        {
+            if (fromUser.OwnedVacancyId is null)
+            {
+                throw new NullReferenceException(fromUser.OwnedVacancyId.ToString());
+            }
+            
+            var vacancy = await _unitOfWork.VacancyRepository.GetByIdAsync(fromUser.OwnedVacancyId);
+            if (vacancy is null)
+            {
+                throw new ArgumentNullException(fromUser.OwnedVacancyId.ToString());
+            }
+
+            fromEntityName = vacancy.Title;
+
+            if (toUser.ResumeId is null)
+            {
+                throw new NullReferenceException(toUser.ResumeId.ToString());
+            }
+            
+            var toResume = await _unitOfWork.ResumeRepository.GetByIdAsync(toUser.ResumeId);
+            if (toResume is null)
+            {
+                throw new ArgumentNullException(toUser.ResumeId.ToString());
+            }
+            
+            toEntityName = toResume.FullName;
+        }
+        
         // Создание текущего лайка
         var like = new Like
         {
             Id = Guid.NewGuid(),
-            FromEntityId = fromId,
+            FromUserId = fromUserId,
             FromEntityType = fromType,
-            ToEntityId = toId,
-            ToEntityType = toType,
-            IsMatch = isMatch
+            ToUserId = toUserId,
+            TargetType = toType,
+            IsMatch = isMatch,
+            FromEntityName = fromEntityName,
+            ToEntityTitle = toEntityName
         };
 
         await _unitOfWork.LikeRepository.CreateAsync(like);
@@ -69,7 +144,7 @@ public class LikeService : ILikeService
     {
         return await _unitOfWork.LikeRepository
             .GetAsync(l => l.IsMatch &&
-                           ((l.FromEntityId == entityId && l.FromEntityType == entityType) ||
-                            (l.ToEntityId == entityId && l.ToEntityType == entityType)));
+                           ((l.FromUserId == entityId && l.FromEntityType == entityType) ||
+                            (l.ToUserId == entityId && l.TargetType == entityType)));
     }
 }

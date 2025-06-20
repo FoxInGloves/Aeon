@@ -1,0 +1,78 @@
+@page
+@model Aeon_Web.Areas.Project.Pages.Resume.DetailsModel
+
+@{
+    ViewData["Title"] = "Job Details";
+    var resume = Model.Resume;
+}
+
+<link href="https://cdn.jsdelivr.net/npm/lucide@latest" rel="stylesheet"/>
+<link rel="stylesheet" href="~/css/areas/project/details.css"/>
+<link rel="stylesheet" href="~/css/areas/project/star.css"/>
+<script src="~/js/render-stars.js"></script>
+
+<div class="body">
+    <section class="job-detail-container animate-fade">
+        <div class="job-header">
+            <h1 class="job-title">@resume.Title</h1>
+        </div>
+
+        <div class="job-meta">
+            <h3>@resume.FullName</h3>
+            @*<div class="star-display" data-rating="@resume.DifficultyLevel">
+                @for (var i = 1; i <= 5; i++)
+                {
+                    <span class="star" data-star="@i"></span>
+                }
+            </div>
+            <span class="badge"><i data-lucide="calendar-days"></i> @resume.PostedDate.ToString("dd MMM yyyy")</span>
+            @if (job.SalaryFrom.HasValue || job.SalaryTo.HasValue)
+        {
+            <span class="badge">
+                <i data-lucide="dollar-sign"></i>
+                @($"{job.SalaryFrom?.ToString("C0")} - {job.SalaryTo?.ToString("C0")} {job.Currency}")
+            </span>
+        }*@
+        </div>
+
+        <div class="section">
+            <h2><i data-lucide="file-text"></i> Job Description</h2>
+            <p>@resume.Summary</p>
+        </div>
+
+        <div class="section">
+            <h2><i data-lucide="list-checks"></i> Required Skills</h2>
+            <ul class="skills">
+                @foreach (var skill in resume.ResumeSkills)
+                {
+                    <li>@skill.Skill?.Name</li>
+                }
+            </ul>
+        </div>
+
+        @if (Model.IsMatch)
+        {
+            <div class="section">
+                <h2><i data-lucide="mail"></i> Contact</h2>
+                <p>Email: <a href="mailto:@resume.Contact.Email">@resume.Contact.Email</a></p>
+                @if (!string.IsNullOrWhiteSpace(resume.Contact.Phone))
+                {
+                    <p>Phone: <a href="tel:@resume.Contact.Phone">@resume.Contact.Phone</a></p>
+                }
+            </div>
+        }
+
+        <form class="actions" method="post" asp-page-handler="Like">
+            @if (!Model.IsMatch)
+            {
+                <input type="hidden" name="resumeId" value="@resume.Id"/>
+                <button type="submit" class="btn-primary">Откликнуться</button>
+            }
+            <button class="btn-secondary" onclick="history.back()">Назад</button>
+        </form>
+    </section>
+</div>
+
+<script>
+    lucide.createIcons();
+</script>

@@ -39,7 +39,7 @@
                 <td class="w-50">
                     <div class="circle-base like-circle me-2">
                         <a class="circle-text like-circle-text m-auto">
-                            ИЗБРАННОЕ
+                            Лайки
                         </a>
                     </div>
                 </td>
@@ -47,7 +47,7 @@
                     <div class="circle-base proj-circle ms-3">
                         <a class="circle-text proj-circle-text m-auto" asp-area="Identity"
                            asp-page="/Account/Profile/Project/Index">
-                            PROJECTS
+                            Проект
                         </a>
                     </div>
                 </td>
@@ -63,8 +63,8 @@
                 <table class="center-block mt-5">
                     <td class="w-50">
                         <div class="circle-base like-circle me-2">
-                            <a class="circle-text like-circle-text m-auto">
-                                ИЗБРАННОЕ
+                            <a class="circle-text like-circle-text m-auto" asp-area="Project" asp-page="/Likes/Index">
+                                ЛАЙКИ
                             </a>
                         </div>
                     </td>
@@ -72,7 +72,7 @@
                         <div class="circle-base proj-circle ms-3">
                             <a class="circle-text proj-circle-text m-auto" asp-area="Identity"
                                asp-page="/Account/Profile/Project/Index">
-                                PROJECTS
+                                ПРОЕКТ
                             </a>
                         </div>
                     </td>
@@ -82,6 +82,10 @@
                 <div class="details-container center-block ms-5">
                     <div class="m-tl-50-20">
                         <p class="light-text fw-bold">Details:</p>
+                        <div class="mt-2">
+                            <div class="light-text fw-bold">Имя</div>
+                            <div class="light-text">@Model.Resume.FullName</div>
+                        </div>
                         <div class="mt-2">
                             <div class="light-text fw-bold">Роль</div>
                             <div class="light-text">@Model.Resume.Title</div>

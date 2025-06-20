@@ -16,7 +16,7 @@
         {
             <div class="text-center">
                 <p class="lead">У вас пока нет созданного проекта.</p>
-                <a class="btn btn-primary btn-lg mt-3" asp-page="/Vacancy/Create">Создать проект</a>
+                <a class="btn btn-primary btn-lg mt-3" asp-page="./Form">Создать проект</a>
             </div>
         }
         else
@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="mt-4">
-                        <a class="btn btn-outline-secondary me-2" asp-page="./Form" asp-route-id="@project.Id">
+                        <a class="btn btn-outline-secondary me-2" asp-page="./Form" asp-route-vacancyId="@project.Id">
                             <i class="bi bi-pencil-square"></i> Редактировать
                         </a>
                         <a class="btn btn-outline-danger" asp-page="/Vacancy/Delete" asp-route-id="@project.Id">

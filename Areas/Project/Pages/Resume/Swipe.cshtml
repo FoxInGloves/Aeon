@@ -1,0 +1,45 @@
+@page
+@model Aeon_Web.Areas.Project.Pages.Resume.SwipeModel
+@{
+    ViewData["Title"] = "Job Swipe";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="~/css/areas/project/swipe.css"/>
+<link rel="stylesheet" href="~/css/areas/project/star.css"/>
+<script src="~/js/areas/project/swipe.js"></script>
+<script src="~/js/render-stars.js"></script>
+
+<div class="body">
+    <div class="card-container" id="cardContainer">
+        @foreach (var resume in Model.Resumes)
+        {
+            <div class="job-card" data-resume-id="@resume.Id">
+                <div style="max-height: 85%">
+                    <h2>@resume.Title</h2>
+                    <h4>@resume.FullName</h4>
+                    <p class="job-desc">@resume.Summary</p>
+                    <div class="skills">
+                        @foreach (var skill in resume.ResumeSkills)
+                        {
+                            <div class="skill">@skill.Skill?.Name</div>
+                        }
+                    </div>
+                </div>
+                <div class="actions">
+                    <button class="dislike" onclick="swipeResume(this, 'left')" title="Dislike"><i class="fas fa-times"></i>
+                    </button>
+                    <button class="like" onclick="swipeResume(this, 'right')" title="Like"><i class="fas fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        }
+        <div id="noVacanciesMessage" class="no-vacancies" style="display: none;">
+            <h2>Резюме закончились</h2>
+            <p>Вы просмотрели все доступные резюме.</p>
+            <button onclick="location.reload()" class="refresh-button">
+                <i class="fas fa-rotate-right"></i> Обновить список
+            </button>
+        </div>
+    </div>
+</div>

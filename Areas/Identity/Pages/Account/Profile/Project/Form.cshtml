@@ -2,23 +2,27 @@
 @model Aeon_Web.Areas.Identity.Pages.Account.Profile.Project.FormModel
 
 @{
-    var isEdit = Model.IsEdit;
+    var isEdit = Model.Input.IsEdit;
     ViewData["Title"] = isEdit ? "Edit Job Vacancy" : "Create Job Vacancy";
 }
 
 <link rel="stylesheet" href="~/css/areas/identity/account/profile/project/form.css"/>
 <link rel="stylesheet" href="~/css/areas/project/star.css"/>
+<link rel="stylesheet" href="~/css/areas/project/switch.css"/>
 <script src="~/js/render-stars.js"></script>
 
-<section class="form-container">
-    <h1>@(isEdit ? "Edit Vacancy" : "Create New Vacancy")</h1>
+<partial name="_StatusMessage" for="StatusMessage"/>
 
+<section class="form-container">
+    <h1>@(isEdit ? "Редактирование проекта" : "Создать новый проект")</h1>
     <form method="post">
+        <input type="hidden" asp-for="Input.VacancyId"/>
+        <input type="hidden" asp-for="Input.IsEdit"/>
         <div class="form-group">
             <label>Заголовок</label>
-            <input asp-for="Vacancy.Title" class="input" placeholder="Frontend Developer" />
+            <input asp-for="Input.Title" class="input" placeholder="Название проекта"/>
         </div>
-        
+
         <div class="form-group">
             <label>Сложность проекта</label>
             <div class="star-rating" id="starRating">
@@ -30,30 +34,42 @@
                     <span class="star" data-value="5"></span>
                 </div>
             </div>
-            <input type="hidden" id="difficulty" asp-for="Vacancy.DifficultyLevel" value="@Model.Vacancy.DifficultyLevel" />
+            <input type="hidden" id="difficulty" asp-for="Input.DifficultyLevel" value="@Model.Input.DifficultyLevel"/>
+        </div>
 
+        <div class="toggle-container mt-2">
+            <label class="toggle-label" asp-for="Input.IsVisible">Показывать проект</label>
+            <label class="toggle-switch">
+                <input type="checkbox" asp-for="Input.IsVisible" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label>Навыки (через запятую)</label>
+            <input asp-for="Input.SkillsRaw" class="input" placeholder="C#, ASP.NET, Razor Pages"/>
         </div>
 
         <div class="form-group">
-            <label>Skills (comma-separated)</label>
-            <input asp-for="SkillsRaw" class="input" placeholder="C#, ASP.NET, Razor Pages" />
-        </div>
-
-        <div class="form-group">
-            <label>Description</label>
-            <textarea asp-for="Vacancy.Description" class="input textarea" rows="5" placeholder="Describe the responsibilities and requirements..."></textarea>
+            <label>Описание</label>
+            <textarea asp-for="Input.Description" class="input textarea" rows="5" placeholder=""></textarea>
         </div>
 
         <div class="form-group">
             <label>Email для связи</label>
-            <input asp-for="Vacancy.Contact.Email" class="input" placeholder="hr@company.com" />
+            <input asp-for="Input.Email" class="input" placeholder="hr@company.com"/>
         </div>
 
         <div class="form-group">
             <label>Телефон для связи</label>
-            <input asp-for="Vacancy.Contact.Phone" class="input" placeholder="+1 234 567 89" />
+            <input asp-for="Input.Phone" class="input" placeholder="+1 234 567 89"/>
         </div>
 
+        <div class="form-group">
+            <label>Сайт</label>
+            <input asp-for="Input.Website" class="input" placeholder="site.com"/>
+        </div>
+        
         <div class="form-actions">
             <button class="btn-primary" type="submit">@(isEdit ? "Обновить" : "Создать")</button>
             <a class="btn-secondary" href="/Jobs">Отмена</a>

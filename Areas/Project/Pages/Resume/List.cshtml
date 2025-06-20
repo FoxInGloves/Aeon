@@ -1,0 +1,62 @@
+@page
+@model Aeon_Web.Areas.Project.Pages.Resume.ListModel
+@{
+    ViewData["Title"] = "🔥 Резюме мечты";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link rel="stylesheet" href="~/css/areas/project/list.css"/>
+
+<div class="body">
+    <section class="container">
+        <form method="get" class="filter-bar">
+            <div class="search-group">
+                <i class="fas fa-search"></i>
+                <input type="text" name="SearchQuery" value="@Model.SearchQuery" placeholder="Поиск резюме..."/>
+            </div>
+
+            <button type="submit" class="filter-btn">
+                Найти
+            </button>
+        </form>
+        
+        @if (Model.Resumes.Count == 0)
+        {
+            <h2>Ничего не найдено</h2>
+        }
+        else
+        {
+            <h1 class="headline">🔥 Актуальные резюме</h1>
+
+            @*TODO добавить проверку на null*@
+            <div class="job-grid">
+                @foreach (var resume in Model.Resumes)
+                {
+                    <div class="job-card">
+                        <a asp-area="Project" asp-page="Resume/Details">
+                            <div class="card-header">
+                                <h2>@resume.Title</h2>
+                            </div>
+                            @*<div class="meta">
+                                <div class="star-display" data-rating="@resume.">
+                                    @for (var i = 1; i <= 5; i++)
+                                    {
+                                        <span class="star" data-star="@i"></span>
+                                    }
+                                </div>
+                            </div>*@
+                            <p class="description">@(resume.Summary[..Math.Min(120, resume.Summary.Length)])...</p>
+                            <div class="skills">
+                                @foreach (var skill in resume.ResumeSkills.Take(5))
+                                {
+                                    <span class="skill">@skill.Skill.Name</span>
+                                }
+                            </div>
+                            <a class="view-button" asp-page="/Resume/Details" asp-route-resumeId="@resume.Id">Подробнее</a>
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+    </section>
+</div>

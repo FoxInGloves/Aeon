@@ -1,0 +1,24 @@
+@model List<Aeon_Web.Models.Entities.Resume>
+
+@foreach (var resume in Model)
+{
+    <div class="job-card" data-resume-id="@resume.Id">
+        <div style="max-height: 85%">
+            <h2>@resume.Title</h2>
+            <h4>@resume.FullName</h4>
+            <p class="job-desc">@resume.Summary</p>
+            <div class="skills">
+                @foreach (var skill in resume.ResumeSkills)
+                {
+                    <div class="skill">@skill.Skill?.Name</div>
+                }
+            </div>
+        </div>
+        <div class="actions">
+            <button class="dislike" onclick="swipeResume(this, 'left')" title="Dislike"><i class="fas fa-times"></i>
+            </button>
+            <button class="like" onclick="swipeResume(this, 'right')" title="Like"><i class="fas fa-heart"></i>
+            </button>
+        </div>
+    </div>
+}

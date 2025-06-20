@@ -6,8 +6,12 @@ public class ApplicationUser : IdentityUser<Guid>
 {
     public Guid? ResumeId { get; set; }
     
+    /*public bool IsVisibleResume { get; set; }*/
+    
     public Guid? OwnedVacancyId { get; set; }
 
+    /*public bool IsVisibleVacancy { get; set; }*/
+    
     public virtual ICollection<UserVacancy> UserVacancies { get; set; } = new List<UserVacancy>();
     
     public virtual Resume? Resume { get; set; }

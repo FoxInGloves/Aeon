@@ -114,34 +114,37 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
         
         builder.Entity<Like>(entity =>
         {
-            entity.HasKey(l => l.Id);
+            entity.ToTable("Likes");
 
-            entity.Property(l => l.Id)
-                .ValueGeneratedNever(); // если ты сам генерируешь Guid
+            entity.HasKey(e => e.Id);
 
-            entity.Property(l => l.FromEntityId)
+            entity.Property(e => e.FromEntityName)
                 .IsRequired();
 
-            entity.Property(l => l.FromEntityType)
-                .IsRequired()
-                .HasConversion<string>(); // enum -> string
-
-            entity.Property(l => l.ToEntityId)
+            entity.Property(e => e.ToEntityTitle)
                 .IsRequired();
 
-            entity.Property(l => l.ToEntityType)
-                .IsRequired()
-                .HasConversion<string>(); // enum -> string
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-            entity.Property(l => l.IsMatch)
+            entity.Property(e => e.TargetType)
                 .IsRequired();
 
-            /*entity.Property(l => l.CreatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP"); // или DateTime.UtcNow в C#*/
+            entity.Property(e => e.FromEntityType)
+                .IsRequired();
 
-            // Один лайк от сущности к сущности — уникальный
-            entity.HasIndex(l => new { l.FromEntityId, l.FromEntityType, l.ToEntityId, l.ToEntityType })
-                .IsUnique();
+            entity.Property(e => e.IsMatch)
+                .IsRequired();
+
+            entity.HasOne(e => e.FromUser)
+                .WithMany()
+                .HasForeignKey(e => e.FromUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.ToUser)
+                .WithMany()
+                .HasForeignKey(e => e.ToUserId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

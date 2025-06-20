@@ -4,6 +4,8 @@ namespace Aeon_Web.Data.Repository.Abstractions;
 
 public interface IGenericRepository<TEntity> where TEntity : class
 {
+    public IQueryable<TEntity> GetQuery();
+    
     public Task<IEnumerable<TEntity>> GetAsync(
         Expression<Func<TEntity, bool>>? filter = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null);
