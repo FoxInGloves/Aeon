@@ -29,6 +29,7 @@ public class EditModel : PageModel
 
     [TempData] public string? StatusMessage { get; set; }
 
+    [BindProperty]
     public bool IsHaveVisibleVacancy { get; set; }
 
     [BindProperty] public InputModel Input { get; set; }
@@ -136,7 +137,7 @@ public class EditModel : PageModel
             var resumeId = user.ResumeId;
             user.ResumeId = null;
             
-            await _resumeService.DeleteResumeAsync(resumeId);
+            await _resumeService.DeleteResumeAsync(resumeId, user.Id);
 
             StatusMessage = "Резюме удалено";
         }

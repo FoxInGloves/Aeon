@@ -11,7 +11,7 @@ public class Mapper : IMapper
         var likeDto = new LikeDto
         {
             LikeId = like.Id,
-            FromEntityId = like.FromEntityType == LikeEntityType.Resume ? 
+            FromEntityId = like.FromEntityType == EntityType.Resume ? 
                 like.FromUser.ResumeId.Value : like.FromUser.OwnedVacancyId.Value,
             FromEntityName = like.FromEntityName,
             TargetType = like.TargetType,

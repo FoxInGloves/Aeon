@@ -12,9 +12,9 @@ public class Resume
     
     public string Summary { get; set; } = string.Empty;
     
+    public DateTime CreatedAt { get; set; }
+    
     public virtual ICollection<ResumeSkill> ResumeSkills { get; set; } = [];
     
     public ContactInfo Contact { get; set; } = new();
-    
-    public virtual ICollection<Vacancy> RespondedVacancies { get; set; } = new List<Vacancy>();
 }

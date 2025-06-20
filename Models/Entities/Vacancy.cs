@@ -19,7 +19,7 @@ public class Vacancy
 
     public ContactInfo Contact { get; set; } = new();
 
-    public virtual ICollection<UserVacancy> UserVacancies { get; set; } = new List<UserVacancy>();
+    /*public virtual ICollection<UserVacancy> UserVacancies { get; set; } = new List<UserVacancy>();*/
 
     //public virtual ICollection<Resume> RespondedResumes { get; set; } = new List<Resume>();
 }

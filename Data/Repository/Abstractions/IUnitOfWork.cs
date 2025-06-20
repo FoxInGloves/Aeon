@@ -20,5 +20,7 @@ public interface IUnitOfWork
     
     public IGenericRepository<Like> LikeRepository { get; }
     
+    public IGenericRepository<Report> ReportRepository { get; }
+    
     public Task SaveChangesAsync();
 }

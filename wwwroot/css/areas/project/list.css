@@ -91,6 +91,7 @@ body {
 
 .view-button:hover {
     background: var(--accent-hover);
+    color: var(--card-bg)
 }
 
 .filter-bar {

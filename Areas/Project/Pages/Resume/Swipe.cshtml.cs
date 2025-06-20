@@ -18,6 +18,7 @@ public class SwipeModel : PageModel
         IUnitOfWork unitOfWork)
     {
         _logger = logger;
+        _userManager =  userManager;
         _unitOfWork = unitOfWork;
     }
     

@@ -7,7 +7,7 @@ public class Like
     
     public required Guid FromUserId { get; set; }
     
-    public LikeEntityType FromEntityType { get; set; }
+    public EntityType FromEntityType { get; set; }
 
     public required string FromEntityName { get; set; } 
     
@@ -15,7 +15,7 @@ public class Like
     
     public required string ToEntityTitle { get; set; }
     
-    public required LikeEntityType TargetType { get; set; }
+    public required EntityType TargetType { get; set; }
 
     public bool IsMatch { get; set; }
 

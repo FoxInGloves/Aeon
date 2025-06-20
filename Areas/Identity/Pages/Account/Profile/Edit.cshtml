@@ -10,17 +10,23 @@
 <link rel="stylesheet" href="~/css/margin.css"/>
 
 <div class="mlr-5">
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert-success">@TempData["Message"]</div>
+    }
     <partial name="_StatusMessage" for="StatusMessage"/>
     <h2>Редактирование резюме</h2>
 
-    <form method="post" onsubmit="return @Model.IsHaveVisibleVacancy ? confirm('Ваш проект будет снят с публикации') : null">
-        <input type="hidden" asp-for="Input.ResumeId" />
-        <input type="hidden" asp-for="Input.IsEdit" />
+    <form method="post"
+          onsubmit="return @Model.IsHaveVisibleVacancy ? confirm('Ваш проект будет снят с публикации') : null">
+        <input type="hidden" asp-for="Input.ResumeId"/>
+        <input type="hidden" asp-for="Input.IsEdit"/>
+        <input type="hidden" asp-for="IsHaveVisibleVacancy"/>
         <div>
             <label asp-for="Input.FullName">Имя</label>
             <input asp-for="Input.FullName" class="form-control" placeholder="Иванов Иван Иванович"/>
         </div>
-        
+
         <div>
             <label asp-for="Input.Title">Желаемая роль</label>
             <input asp-for="Input.Title" class="form-control" placeholder="Backend разработчик"/>
@@ -32,13 +38,13 @@
         </div>
 
         <div class="toggle-container mt-2">
-        <label class="toggle-label" asp-for="Input.IsVisible">Показывать резюме</label>
-        <label class="toggle-switch">
-            <input type="checkbox" asp-for="Input.IsVisible" checked>
-            <span class="slider"></span>
-        </label>
+            <label class="toggle-label" asp-for="Input.IsVisible">Показывать резюме</label>
+            <label class="toggle-switch">
+                <input type="checkbox" asp-for="Input.IsVisible">
+                <span class="slider"></span>
+            </label>
         </div>
-        
+
         <h3>Контактная информация</h3>
         <div>
             <label asp-for="Input.Email">Email</label>
@@ -70,7 +76,7 @@
         <form method="post" asp-page-handler="Delete"
               onsubmit="return confirm('Вы уверены, что хотите удалить резюме?');"
               class="mt-3">
-            <input type="hidden" asp-for="Input.ResumeId" />
+            <input type="hidden" asp-for="Input.ResumeId"/>
             <button type="submit" class="btn btn-danger">Удалить резюме</button>
         </form>
     }

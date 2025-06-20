@@ -47,9 +47,9 @@ public class LikeController : Controller
 
         var isMatch = await _likeService.LikeAsync(
             fromId: currentUser.Id,
-            fromType: LikeEntityType.Resume,
+            fromType: EntityType.Resume,
             toId: toUser.Id,
-            toType: LikeEntityType.Vacancy);
+            toType: EntityType.Vacancy);
 
         _logger.LogInformation("User {FromId} liked Vacancy {ToId}. Match: {IsMatch}", currentUser.Id, dto.ToVacancyId, isMatch);
 
@@ -75,9 +75,9 @@ public class LikeController : Controller
 
         var isMatch = await _likeService.LikeAsync(
             fromId: currentUser.Id,
-            fromType: LikeEntityType.Vacancy,
+            fromType: EntityType.Vacancy,
             toId: toUser.Id,
-            toType: LikeEntityType.Resume);
+            toType: EntityType.Resume);
 
         _logger.LogInformation("User {FromId} liked Resume {ToId}. Match: {IsMatch}", currentUser.Id, dto.ToResumeId, isMatch);
 

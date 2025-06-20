@@ -18,6 +18,7 @@
     <form method="post">
         <input type="hidden" asp-for="Input.VacancyId"/>
         <input type="hidden" asp-for="Input.IsEdit"/>
+        <input type="hidden" asp-for="IsHaveVisibleResume"/>
         <div class="form-group">
             <label>Заголовок</label>
             <input asp-for="Input.Title" class="input" placeholder="Название проекта"/>
@@ -40,7 +41,7 @@
         <div class="toggle-container mt-2">
             <label class="toggle-label" asp-for="Input.IsVisible">Показывать проект</label>
             <label class="toggle-switch">
-                <input type="checkbox" asp-for="Input.IsVisible" checked>
+                <input type="checkbox" asp-for="Input.IsVisible">
                 <span class="slider"></span>
             </label>
         </div>
@@ -72,7 +73,8 @@
         
         <div class="form-actions">
             <button class="btn-primary" type="submit">@(isEdit ? "Обновить" : "Создать")</button>
-            <a class="btn-secondary" href="/Jobs">Отмена</a>
+            <a class="btn-secondary" asp-area="Identity"
+               asp-page="/Account/Profile/Index">Отмена</a>
         </div>
     </form>
 </section>

@@ -1,7 +1,7 @@
 @page
 @model Aeon_Web.Areas.Project.Pages.Job.ListModel
 @{
-    ViewData["Title"] = "🔥 Вакансии мечты";
+    ViewData["Title"] = "🔥 Проекты мечты";
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
@@ -23,9 +23,10 @@
                     <option value="">Любая сложность</option>
                     @for (var i = 1; i <= 5; i++)
                     {
-                        var i1 = i;
-                        <option value="@(i1 * 2)" selected="@(Model.MaxDifficulty == i1)">
-                            До @i1 ⭐
+                        var i1 = i * 2;
+                        var i2 = i;
+                        <option value="@i1" selected="@(Model.MaxDifficulty == i1)">
+                            До @i2 ⭐
                         </option>
                     }
                 </select>
@@ -42,14 +43,14 @@
         }
         else
         {
-            <h1 class="headline">🔥 Актуальные вакансии</h1>
+            <h1 class="headline">🔥 Актуальные проекты</h1>
 
             @*TODO добавить проверку на null*@
             <div class="job-grid">
                 @foreach (var vacancy in Model.Vacancies)
                 {
                     <div class="job-card">
-                        <a asp-area="Project" asp-page="/Job/Details">
+                        <a asp-area="Project" asp-page="/Job/Details" asp-route-vacancyId="@vacancy.Id">
                             <div class="card-header">
                                 <h2>@vacancy.Title</h2>
                             </div>

@@ -13,7 +13,7 @@ public class LikeService : ILikeService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<bool> LikeAsync(Guid fromUserId, LikeEntityType fromType, Guid toUserId, LikeEntityType toType)
+    public async Task<bool> LikeAsync(Guid fromUserId, EntityType fromType, Guid toUserId, EntityType toType)
     {
         // Проверка, не ставил ли уже лайк
         var existingLike = await _unitOfWork.LikeRepository
@@ -55,7 +55,7 @@ public class LikeService : ILikeService
             throw new ArgumentNullException(toUserId.ToString());
         }
         
-        if (fromType == LikeEntityType.Resume)
+        if (fromType == EntityType.Resume)
         {
             if (fromUser.ResumeId is null)
             {
@@ -120,6 +120,7 @@ public class LikeService : ILikeService
             FromEntityType = fromType,
             ToUserId = toUserId,
             TargetType = toType,
+            CreatedAt = DateTime.Now,
             IsMatch = isMatch,
             FromEntityName = fromEntityName,
             ToEntityTitle = toEntityName
@@ -140,7 +141,7 @@ public class LikeService : ILikeService
         return isMatch;
     }
 
-    public async Task<IEnumerable<Like>> GetMatchesAsync(Guid entityId, LikeEntityType entityType)
+    public async Task<IEnumerable<Like>> GetMatchesAsync(Guid entityId, EntityType entityType)
     {
         return await _unitOfWork.LikeRepository
             .GetAsync(l => l.IsMatch &&

@@ -9,4 +9,17 @@ public class VacancySkillRepository(ApplicationDbContext context) : GenericRepos
     {
         return EntityDbSet.Any(predicate);
     }
+    
+    public IEnumerable<VacancySkill> FindAll(Expression<Func<VacancySkill, bool>> predicate)
+    {
+        return EntityDbSet.Where(predicate).ToArray();
+    }
+
+    public void DeleteRange(IEnumerable<VacancySkill> vacancySkills)
+    {
+        foreach (var vs in vacancySkills)
+        {
+            Delete(vs);
+        }
+    }
 }

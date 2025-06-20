@@ -31,42 +31,26 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        var user = await _userManager.GetUserAsync(User);
-        if (user is null)
+        try
         {
-            return Challenge();
-        }
-        var likes = await _unitOfWork.LikeRepository.GetAsync(l => l.ToUserId == user.Id);
+            var user = await _userManager.GetUserAsync(User);
+            if (user is null)
+            {
+                return Challenge();
+            }
+            var likes = await _unitOfWork.LikeRepository.GetAsync(l => l.ToUserId == user.Id);
 
-        foreach (var like in likes)
+            foreach (var like in likes)
+            {
+                Likes.Add(_mapper.MapLikeToDto(like));
+            }
+        }
+        catch (Exception e)
         {
-            Likes.Add(_mapper.MapLikeToDto(like));
+            _logger.LogError("Unexpected error occured while getting likes: {Error}",  e.Message);
+            /*throw;*/
         }
 
         return Page();
-        /*Likes = new List<LikeDto>
-        {
-            new LikeDto
-            {
-                FromUserName = "Иван Петров",
-                TargetType = "Резюме",
-                TargetTitle = "Backend-разработчик",
-                LikedAt = DateTime.Now.AddMinutes(-5)
-            },
-            new LikeDto
-            {
-                FromUserName = "Мария К.",
-                TargetType = "Проект",
-                TargetTitle = "TaskHub",
-                LikedAt = DateTime.Now.AddHours(-1)
-            },
-            new LikeDto
-            {
-                FromUserName = "Алексей П.",
-                TargetType = "Резюме",
-                TargetTitle = "Fullstack-разработчик",
-                LikedAt = DateTime.Now.AddDays(-1)
-            }
-        };*/
     }
 }

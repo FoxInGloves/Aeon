@@ -10,7 +10,7 @@ public class LikeDto
     
     public string FromEntityName { get; set; } = string.Empty;
     
-    public LikeEntityType TargetType { get; set; }
+    public EntityType TargetType { get; set; }
     
     public string TargetTitle { get; set; } = string.Empty;
     

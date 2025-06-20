@@ -81,7 +81,7 @@
             <td class="w-50">
                 <div class="details-container center-block ms-5">
                     <div class="m-tl-50-20">
-                        <p class="light-text fw-bold">Details:</p>
+                        <p class="light-text fw-bold">Информация:</p>
                         <div class="mt-2">
                             <div class="light-text fw-bold">Имя</div>
                             <div class="light-text">@Model.Resume.FullName</div>
@@ -90,23 +90,23 @@
                             <div class="light-text fw-bold">Роль</div>
                             <div class="light-text">@Model.Resume.Title</div>
                         </div>
-                        <p class="light-text fw-bold mt-3">Contacts:</p>
+                        <p class="light-text fw-bold mt-3">Контакты:</p>
                         <div class="mt-3">
                             <div class="light-text fw-bold">Email</div>
                             <div class="light-text">@Model.Resume.Contact.Email</div>
                         </div>
                         <div class="mt-2">
-                            <div class="light-text fw-bold">Phone</div>
+                            <div class="light-text fw-bold">Телефон</div>
                             <div class="light-text">@Model.Resume.Contact.Phone</div>
                         </div>
                         <div class="mt-2">
-                            <div class="light-text fw-bold">Website</div>
+                            <div class="light-text fw-bold">Сайт</div>
                             <div class="light-text">@Model.Resume.Contact.Website</div>
                         </div>
                         @if (Model.Skills.Any())
                         {
                             <div class="mt-3">
-                                <div class="light-text fw-bold">Skills</div>
+                                <div class="light-text fw-bold">Навыки</div>
                                 @foreach (var skill in Model.Skills.Take(5))
                                 {
                                     <span class="skill">@skill.Name</span>

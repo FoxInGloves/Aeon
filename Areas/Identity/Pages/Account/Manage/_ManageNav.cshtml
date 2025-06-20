@@ -1,18 +1,24 @@
 @using Aeon_Web.Models.Entities
 @inject SignInManager<ApplicationUser> SignInManager
 @{
-    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+    /*var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();*/
 }
 
 <link rel="stylesheet" href="~/css/areas/identity/account/manage/index.css"/>
 
 <ul class="nav nav-pills flex-column">
-    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Профиль</a>
     </li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a>
+    <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Электронная почта</a>
     </li>
     <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password"
-                            asp-page="./ChangePassword">Password</a></li>
+                            asp-page="./ChangePassword">Пароль</a></li>
+    @if (User.IsInRole("Admin"))
+    {
+        <li class="nav-item">
+            <a class="nav-link @ManageNavPages.ViewReports(ViewContext)" asp-page="./ViewReports">Жалобы</a>
+        </li>
+    }
     @*@if (hasExternalLogins)
     {
         <li id="external-logins" class="nav-item"><a id="external-login"
@@ -27,5 +33,5 @@
 <form class="form-inline mt-5 logout" asp-area="Identity" asp-page="/Account/Logout" 
       asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"
       onsubmit="return confirm('Вы уверены, что хотите выйти из аккаунта?')">
-    <button type="submit" class="nav-link btn-danger btn btn-link text-light" onclick="">Выйти</button>
+    <button type="submit" class="nav-link btn-danger btn btn-link text-light">Выйти</button>
 </form>

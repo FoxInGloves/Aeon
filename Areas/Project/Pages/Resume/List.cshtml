@@ -33,18 +33,10 @@
                 @foreach (var resume in Model.Resumes)
                 {
                     <div class="job-card">
-                        <a asp-area="Project" asp-page="Resume/Details">
+                        <a asp-page="/Resume/Details" asp-route-resumeId="@resume.Id">
                             <div class="card-header">
                                 <h2>@resume.Title</h2>
                             </div>
-                            @*<div class="meta">
-                                <div class="star-display" data-rating="@resume.">
-                                    @for (var i = 1; i <= 5; i++)
-                                    {
-                                        <span class="star" data-star="@i"></span>
-                                    }
-                                </div>
-                            </div>*@
                             <p class="description">@(resume.Summary[..Math.Min(120, resume.Summary.Length)])...</p>
                             <div class="skills">
                                 @foreach (var skill in resume.ResumeSkills.Take(5))

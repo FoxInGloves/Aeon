@@ -13,6 +13,7 @@ public class UnitOfWork(ApplicationDbContext context) : IUnitOfWork
     private ResumeSkillRepository? _resumeSkillsRepository;
     private VacancySkillRepository? _vacancySkillRepository;
     private IGenericRepository<Like>? _likeRepository;
+    private IGenericRepository<Report>? _reportRepository;
 
     public IGenericRepository<ApplicationUser> UserRepository =>
         _userRepository ?? new GenericRepository<ApplicationUser>(context);
@@ -34,9 +35,12 @@ public class UnitOfWork(ApplicationDbContext context) : IUnitOfWork
 
     public VacancySkillRepository VacancySkillRepository =>
         _vacancySkillRepository ?? new VacancySkillRepository(context);
-    
+
     public IGenericRepository<Like> LikeRepository =>
-    _likeRepository ?? new GenericRepository<Like>(context);
+        _likeRepository ?? new GenericRepository<Like>(context);
+
+    public IGenericRepository<Report> ReportRepository =>
+        _reportRepository ?? new GenericRepository<Report>(context);
 
     public async Task SaveChangesAsync()
     {

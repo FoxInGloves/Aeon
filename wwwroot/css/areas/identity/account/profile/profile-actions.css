@@ -61,6 +61,10 @@
     color: #e7386d;
 }
 
+.like-circle-text:hover {
+    color: #ffffff;
+}
+
 .proj-circle {
     border: 3px var(--accent-contrast) solid;
 }
@@ -72,4 +76,8 @@
 
 .proj-circle-text {
     color: #ffcb1c;
+}
+
+.proj-circle-text:hover {
+    color: #ffffff;
 }

@@ -31,6 +31,9 @@ public class ListModel : PageModel
         var resumes = await GetFilteredVacanciesAsync();
         var currentUser = await _userManager.GetUserAsync(User);
 
+        /*await _userManager.AddToRoleAsync(currentUser, "Admin");*/
+        /*Console.WriteLine(User.IsInRole("Admin"));*/
+        
         if (currentUser?.OwnedVacancy is { IsVisible: true })
         {
             resumes = resumes

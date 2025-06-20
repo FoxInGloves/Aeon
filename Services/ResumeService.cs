@@ -18,9 +18,10 @@ public class ResumeService
     /// Deletes a resume and its associated data, including related skills, from the database.
     /// </summary>
     /// <param name="resumeId">The unique identifier of the resume to be deleted. If null, the method will perform no action.</param>
+    /// <param name="userId">The unique identifier of the resume owner</param>
     /// <returns>A task that represents the asynchronous delete operation.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the resume with the provided <paramref name="resumeId"/> is not found.</exception>
-    public async Task DeleteResumeAsync(Guid? resumeId)
+    public async Task DeleteResumeAsync(Guid? resumeId, Guid userId)
     {
         if (resumeId is null)
             return;
@@ -55,6 +56,13 @@ public class ResumeService
             {
                 _unitOfWork.SkillRepository.Delete(skill);
             }
+        }
+        
+        var likes = await _unitOfWork.LikeRepository.GetAsync(l => l.ToUserId == userId ||
+                                                                   l.FromUserId == userId);
+        foreach (var like in likes)
+        {
+            _unitOfWork.LikeRepository.Delete(like);
         }
         
         await _unitOfWork.SaveChangesAsync();

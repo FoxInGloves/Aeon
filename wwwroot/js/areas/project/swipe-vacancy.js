@@ -20,6 +20,10 @@ async function swipeVacancy(button, direction) {
                 body: JSON.stringify({ ToVacancyId: vacancyId })
             });
 
+            if (response.status === 401) {
+                window.location.href = '/Identity/Account/Login';
+            }
+            
             const result = await response.json();
             if (!result.success) {
                 console.error('Ошибка при лайке:', result.error);
@@ -44,15 +48,15 @@ async function swipeVacancy(button, direction) {
     } , 500);
 }
 
-let loading = false;
+let loadingVacancy = false;
 let skip = 10;
 
 async function loadMoreVacancies() {
-    /*if (loading) return;*/
-    loading = true;
+    if (loadingVacancy) return;
+    loadingVacancy = true;
 
     try {
-        const response = await fetch(`/api/project/vacancy?skip=1&take=10`, {
+        const response = await fetch(`/api/project/vacancy?skip=${skip}&take=10`, {
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             }
@@ -66,40 +70,11 @@ async function loadMoreVacancies() {
         skip += addedCount;
 
         if (addedCount > 0) {
-            renderStars(); // Если ты используешь отложенный рендер звёзд
+            renderStars();
         }
+    } catch (err) {
+        console.error("Ошибка загрузки:", err);
     } finally {
-        loading = false;
+        loadingVacancy = false;
     }
-}
-
-async function swipeResume(button, direction) {
-    const card = button.closest('.job-card');
-    const resumeId = card.dataset.resumeId;
-
-    if (direction === 'right') {
-        try {
-            const response = await fetch('/api/like/resume', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ ToResumeId: resumeId })
-            });
-
-            const result = await response.json();
-            if (!result.success) {
-                console.error('Ошибка при лайке:', result.error);
-            } else if (result.isMatch) {
-                alert('У вас мэтч!');
-            }
-        } catch (err) {
-            console.error('Ошибка сети:', err);
-        }
-    }
-
-    // Убираем карточку из UI
-    console.log("свайп")
-    card.classList.add(direction === 'right' ? 'swipe-right' : 'swipe-left');
-    setTimeout(() => card.remove(), 500);
 }

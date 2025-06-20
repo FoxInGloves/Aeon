@@ -26,6 +26,7 @@ public class FormModel : PageModel
     [TempData] 
     public string? StatusMessage { get; set; }
 
+    [BindProperty]
     public bool IsHaveVisibleResume { get; set; }
     
     [BindProperty] public InputModel Input { get; set; }
@@ -67,9 +68,9 @@ public class FormModel : PageModel
             LoadVacancy(vacancy);
 
             var user = await _userManager.GetUserAsync(User);
-            if (user?.OwnedVacancyId != null)
+            if (user?.ResumeId != null)
             {
-                var resume = await _unitOfWork.ResumeRepository.GetByIdAsync(user.OwnedVacancyId);
+                var resume = await _unitOfWork.ResumeRepository.GetByIdAsync(user.ResumeId);
                 if (resume is not null && resume.IsVisible)
                 {
                     IsHaveVisibleResume = true;
@@ -195,6 +196,7 @@ public class FormModel : PageModel
 
         existingVacancy.Title = Input.Title;
         existingVacancy.Description = Input.Description;
+        existingVacancy.IsVisible = Input.IsVisible;
         existingVacancy.DifficultyLevel = Input.DifficultyLevel;
         existingVacancy.Contact.Email = Input.Email;
         existingVacancy.Contact.Phone = Input.Phone;

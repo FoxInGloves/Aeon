@@ -4,7 +4,7 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{
-    var isHaveVacancy = false;
+    var isHaveVisibleVacancy = false;
 }
 
 <!DOCTYPE html>
@@ -21,7 +21,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
     var user = await UserManager.GetUserAsync(User);
-    isHaveVacancy = user?.OwnedVacancy?.IsVisible == true;
+    isHaveVisibleVacancy = user?.OwnedVacancy?.IsVisible == true;
 }
 
 <header class="colored-header" id="site-header">
@@ -34,7 +34,7 @@
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    @if (isHaveVacancy)
+                    @if (isHaveVisibleVacancy)
                     {
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="Project" asp-page="/Resume/List">Резюме</a>
@@ -52,11 +52,7 @@
                             <a class="nav-link text-white" asp-area="Project" asp-page="/Job/Swipe">Карточки</a>
                         </li>
                     }
-                    <li class="nav-item">
-                        <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
                 </ul>
-                @*<partial name="_ActionsPartial"/>*@
                 <partial name="_LoginPartial"/>
             </div>
         </div>
@@ -68,9 +64,9 @@
     </main>
 </div>
 
-<footer class="border-top footer text-muted">
+<footer class="border-top footer text-muted bg-size">
     <div class="container">
-        &copy; 2025 - Aeon_Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        &copy; 2025 - Aeon_Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Конфиденциальность</a>
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

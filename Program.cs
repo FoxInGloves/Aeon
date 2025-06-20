@@ -33,6 +33,10 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ResumeService, ResumeService>();
 builder.Services.AddScoped<ILikeService, LikeService>();
 builder.Services.AddScoped<IMapper, Mapper>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IVacancyService, VacancyService>();
+
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 var app = builder.Build();
 

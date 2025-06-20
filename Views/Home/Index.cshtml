@@ -1,13 +1,19 @@
 ﻿@using Aeon_Web.Models.Entities
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 @*Todo null reference*@
-@*
+
 @{
-    ViewData["Title"] = "Aeon Jobs — твоя карьера начинается здесь";
+    ViewData["Title"] = "Aeon";
+    var user = await UserManager.GetUserAsync(User);
+    var isVisibleVacancy = false;
+    if (user?.OwnedVacancyId != null)
+    {
+        isVisibleVacancy = user.OwnedVacancy.IsVisible;
+    }
 }
-*@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
@@ -16,58 +22,69 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-<header data-aos="fade-down">
-    <h1>👋 Добро пожаловать!</h1>
-    <p>Управляй своей карьерой, находи проекты и взаимодействуй с другими участниками.</p>
-    <div class="cta">
-        <a asp-area="Project" asp-page="/Job/List">🔍 Найти проект</a>
-        <a asp-area="Identity" asp-page="/Account/Profile/Edit.cshtml">✏️ Редактировать резюме</a>
-        <a asp-area="Project" asp-page="/Like/Index">❤️ Мои лайки</a>
-    </div>
-</header>
-
-<section class="section" data-aos="fade-up">
-    <h2 style="text-align:center;">🛠 Что ты можешь сделать сейчас?</h2>
-    <div class="features">
-        <div class="card" data-aos="zoom-in">
-            <i class="fa-solid fa-paper-plane"></i>
-            <h3>Откликнуться на проект</h3>
-            <p>Покажи свою заинтересованность и начни сотрудничество.</p>
+    <header data-aos="fade-down">
+        <h1>👋 Добро пожаловать!</h1>
+        <p>Управляй своей карьерой, находи проекты и взаимодействуй с другими участниками.</p>
+        <div class="cta">
+            @if (isVisibleVacancy)
+            {
+                <a asp-area="Project" asp-page="/Resume/List">🔍 Найти Резюме</a>
+            }
+            else
+            {
+                <a asp-area="Project" asp-page="/Job/List">🔍 Найти проект</a>
+            }
+            @if (user is not null)
+            {
+                <a asp-area="Identity" asp-page="/Account/Profile/Edit" asp-route-resumeId="@user.ResumeId">✏️
+                    Редактировать резюме</a>
+            }
+            else
+            {
+                <a asp-area="Identity" asp-page="/Account/Profile/Edit">✏️ Редактировать резюме</a>
+            }
+            <a asp-area="Project" asp-page="/Like/Index">❤️ Мои лайки</a>
         </div>
-        <div class="card" data-aos="zoom-in" data-aos-delay="100">
-            <i class="fa-solid fa-handshake"></i>
-            <h3>Получить матч</h3>
-            <p>Если проект лайкнул тебя в ответ — вы получите совпадение и сможете общаться.</p>
+    </header>
+
+    <section class="section" data-aos="fade-up">
+        <h2 style="text-align:center;">🛠 Что ты можешь сделать сейчас?</h2>
+        <div class="features">
+            <div class="card" data-aos="zoom-in">
+                <i class="fa-solid fa-paper-plane"></i>
+                <h3>Откликнуться на проект</h3>
+                <p>Покажи свою заинтересованность и начни сотрудничество.</p>
+            </div>
+            <div class="card" data-aos="zoom-in" data-aos-delay="100">
+                <i class="fa-solid fa-handshake"></i>
+                <h3>Получить отклик</h3>
+                <p>Если проект лайкнул тебя в ответ — вы получите совпадение и сможете общаться.</p>
+            </div>
+            <div class="card" data-aos="zoom-in" data-aos-delay="200">
+                <i class="fa-solid fa-list-check"></i>
+                <h3>Следить за активностью</h3>
+                <p>Ведите историю лайков, откликов и полученных отзывов.</p>
+            </div>
         </div>
-        <div class="card" data-aos="zoom-in" data-aos-delay="200">
-            <i class="fa-solid fa-list-check"></i>
-            <h3>Следить за активностью</h3>
-            <p>Ведите историю лайков, матчей и полученных отзывов.</p>
+    </section>
+
+    <section class="section links" data-aos="fade-up">
+        <h2 style="text-align:center;">💡 Полезные ссылки</h2>
+        <div class="features">
+            <div class="card"><i class="fa-solid fa-id-card"></i>
+                <h3><a class="text-light" asp-area="Identity"
+                       asp-page="/Account/Profile/Index">Моё резюме</a></h3></div>
+            <div class="card"><i class="fa-solid fa-diagram-project"></i>
+                <h3><a class="text-light" asp-area="Identity"
+                       asp-page="/Account/Profile/Project/Index">Мой проект</a></h3></div>
+            <div class="card"><i class="fa-solid fa-heart"></i>
+                <h3><a class="text-light" asp-area="Project"
+                       asp-page="/Likes/Index">Входящие лайки</a></h3></div>
+            <div class="card"><i class="fa-solid fa-user"></i>
+                <h3><a class="text-light" asp-area="Identity"
+                       asp-page="/Account/Manage/Index">Настройки профиля</a></h3></div>
         </div>
-    </div>
-</section>
-
-<section class="section" data-aos="fade-up">
-    <h2 style="text-align:center;">💡 Полезные ссылки</h2>
-    <div class="features">
-        <div class="card"><i class="fa-solid fa-id-card"></i>
-            <h3><a asp-page="/Resume/My">Моё резюме</a></h3></div>
-        <div class="card"><i class="fa-solid fa-diagram-project"></i>
-            <h3><a asp-page="/Project/My">Мои проекты</a></h3></div>
-        <div class="card"><i class="fa-solid fa-heart"></i>
-            <h3><a asp-page="/Like/Index">Входящие лайки</a></h3></div>
-        <div class="card"><i class="fa-solid fa-user"></i>
-            <h3><a asp-page="/Account/Manage">Настройки профиля</a></h3></div>
-    </div>
-</section>
-
-<script>
-    AOS.init({
-        duration: 1000,
-        once: true
-    });
-</script>
-
+    </section>
 }
 else
 {
@@ -75,7 +92,7 @@ else
         <h1>🚀 Найди свою идеальную команду с Aeon</h1>
         <p>Современный сервис для поиска проектов, который говорит на языке твоей карьеры.</p>
         <div class="cta">
-            <a asp-page="/Jobs/Index">Найти проект</a>
+            <a asp-area="Project" asp-page="/Job/List">Найти проект</a>
         </div>
     </header>
 
@@ -115,11 +132,11 @@ else
                 <h3>3D моделирование</h3></div>
         </div>
     </section>
-
-    <script>
-    AOS.init({
-        duration: 1000,
-        once: true
-    });
-</script>
 }
+
+<script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    </script>

@@ -74,6 +74,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
 
         builder.Entity<IdentityUserToken<Guid>>(b => { b.ToTable("UserTokens"); });
 
+        builder.Entity<Report>(r => { r.ToTable("Reports"); });
+
         builder.Entity<Skill>(b => { b.HasKey(s => s.Id); });
         
         builder.Entity<ResumeSkill>().HasKey(rs => new { rs.ResumeId, rs.SkillId });
@@ -107,10 +109,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
             .WithMany(u => u.UserVacancies)
             .HasForeignKey(uv => uv.UserId);
 
-        builder.Entity<UserVacancy>()
+        /*builder.Entity<UserVacancy>()
             .HasOne(uv => uv.Vacancy)
             .WithMany(v => v.UserVacancies)
-            .HasForeignKey(uv => uv.VacancyId);
+            .HasForeignKey(uv => uv.VacancyId);*/
         
         builder.Entity<Like>(entity =>
         {
@@ -146,5 +148,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, Applicati
                 .HasForeignKey(e => e.ToUserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
+        
+        builder.Entity<Report>().HasKey(r => r.Id);
     }
 }

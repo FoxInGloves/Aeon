@@ -4,7 +4,7 @@ namespace Aeon_Web.Services.Abstractions;
 
 public interface ILikeService
 {
-    public Task<bool> LikeAsync(Guid fromId, LikeEntityType fromType, Guid toId, LikeEntityType toType);
+    public Task<bool> LikeAsync(Guid fromId, EntityType fromType, Guid toId, EntityType toType);
 
-    public Task<IEnumerable<Like>> GetMatchesAsync(Guid entityId, LikeEntityType entityType);
+    public Task<IEnumerable<Like>> GetMatchesAsync(Guid entityId, EntityType entityType);
 }

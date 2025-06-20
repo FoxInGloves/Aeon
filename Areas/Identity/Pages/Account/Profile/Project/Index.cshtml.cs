@@ -1,5 +1,6 @@
 using Aeon_Web.Data.Repository.Abstractions;
 using Aeon_Web.Models.Entities;
+using Aeon_Web.Services.Abstractions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -8,14 +9,24 @@ namespace Aeon_Web.Areas.Identity.Pages.Account.Profile.Project;
 
 public class IndexModel : PageModel
 {
+    private readonly ILogger<IndexModel> _logger;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IVacancyService _vacancyService;
 
-    public IndexModel(UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork)
+    public IndexModel(
+        ILogger<IndexModel> logger,
+        UserManager<ApplicationUser> userManager,
+        IUnitOfWork unitOfWork,
+        IVacancyService vacancyService)
     {
+        _logger =  logger;
         _userManager = userManager;
         _unitOfWork = unitOfWork;
+        _vacancyService = vacancyService;
     }
+    
+    [TempData] public string? StatusMessage { get; set; }
 
     [BindProperty] 
     public Vacancy? OwnedVacancy { get; set; }
@@ -36,48 +47,37 @@ public class IndexModel : PageModel
             : new List<Skill>();
 
         Skills = skills;
-        /*OwnedVacancy = new Vacancy
-        {
-            Id = Guid.NewGuid(),
-            Description = "Лучший сервис",
-            DifficultyLevel = 3,
-            Title = "Aeon",
-        };
-
-        Skills = new[]
-        {
-            new Skill()
-            {
-                Id = Guid.NewGuid(),
-                Name = "C#"
-            },
-            new Skill()
-            {
-                Id = Guid.NewGuid(),
-                Name = "Git"
-            },
-            new Skill()
-            {
-                Id = Guid.NewGuid(),
-                Name = "Asp"
-            }
-        };*/
-        
-        /*if (user.OwnedVacancyId == null)
-        {
-            return RedirectToPage("/Vacancy/Create"); // Или предложение создать
-        }*/
-
-        /*OwnedVacancy = await _db.Vacancies
-            .Include(v => v.VacancySkills)
-            .ThenInclude(vs => vs.Skill)
-            .FirstOrDefaultAsync(v => v.Id == user.OwnedVacancyId);*/
 
         return Page();
     }
 
-    public async Task OnPostDeleteAsync()
+    public async Task<IActionResult> OnPostDeleteAsync()
     {
-        //TODO написать удаление проекта
+        try
+        {
+            var user = await GetUserAsync();
+            var vacancyId = user.OwnedVacancyId;
+            user.OwnedVacancyId = null;
+            
+            await _vacancyService.DeleteVacancyAsync(vacancyId, user.Id);
+
+            StatusMessage = "Проект удален";
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Cannot delete vacancy. {EMessage}", e.Message);
+            StatusMessage = "Ошибка - не удалось удалить проект";
+        }
+
+        return RedirectToPage("Index");
+    }
+    
+    private async Task<ApplicationUser> GetUserAsync()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user is null)
+            throw new ArgumentNullException(User.ToString());
+
+        return user;
     }
 }

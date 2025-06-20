@@ -17,9 +17,10 @@
         @foreach (var like in Model.Likes)
         {
             <div class="like-card">
-                @if (like.TargetType == LikeEntityType.Vacancy)
+                @if (like.TargetType == EntityType.Vacancy)
                 {
-                    <a asp-area="Project" asp-page="/Resume/Details" asp-route-resumeId="@like.FromEntityId">
+                    <a asp-area="Project" asp-page="/Resume/Details" asp-route-resumeId="@like.FromEntityId"
+                       asp-route-isMatch="@like.IsMatch">
                         @if (like.IsMatch)
                         {
                             <div class="like-header">@like.FromEntityName поставил <strong>обратный</strong> лайк
@@ -31,7 +32,7 @@
                             <div class="like-header">@like.FromEntityName поставил лайк вашему проекту</div>
                         }
                         <div class="like-type">
-                            Тип: @like.TargetType «@like.TargetTitle»
+                            Тип: проект «@like.TargetTitle»
                         </div>
                         <div class="like-time">
                             @GetTimeAgo(like.LikedAt)
@@ -40,12 +41,13 @@
                 }
                 else
                 {
-                    <a asp-area="Project" asp-page="/Job/Details" asp-route-vacancyId="@like.FromEntityId">
+                    <a asp-area="Project" asp-page="/Job/Details" asp-route-vacancyId="@like.FromEntityId"
+                       asp-route-isMatch="@like.IsMatch">
                         <div class="like-header">
-                            @like.FromEntityName поставил лайк вашему резюме
+                            Проект @like.FromEntityName поставил лайк вашему резюме
                         </div>
                         <div class="like-type">
-                            Тип: @like.TargetType «@like.TargetTitle»
+                            Тип: резюме «@like.TargetTitle»
                         </div>
                         <div class="like-time">
                             @GetTimeAgo(like.LikedAt)

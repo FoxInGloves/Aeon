@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="~/css/areas/project/star.css"/>
 <script src="~/js/render-stars.js"></script>
 
+<partial name="_StatusMessage" for="StatusMessage"/>
 <div class="container py-5">
     <div class="bg-white shadow rounded p-5">
         <h1 class="display-5 fw-bold mb-4 text-center">Мой проект</h1>
@@ -46,31 +47,18 @@
                         <a class="btn btn-outline-secondary me-2" asp-page="./Form" asp-route-vacancyId="@project.Id">
                             <i class="bi bi-pencil-square"></i> Редактировать
                         </a>
-                        <a class="btn btn-outline-danger" asp-page="/Vacancy/Delete" asp-route-id="@project.Id">
-                            <i class="bi bi-trash"></i> Удалить
-                        </a>
+                        <form class="btn" method="post" asp-page-handler="Delete"
+                              onsubmit="return confirm('Вы уверены, что хотите удалить проект?');">
+                            <button class="btn btn-outline-danger" type="submit">Удалить</button>
+                        </form>
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="card border-0 shadow-sm">
                         <div class="card-body">
-                            <h5 class="card-title">Участники проекта</h5>
-                            <ul class="list-group list-group-flush">
-                                @if (project.UserVacancies.Any())
-                                {
-                                    @foreach (var uv in project.UserVacancies)
-                                    {
-                                        <li class="list-group-item">
-                                            @uv.User.UserName
-                                        </li>
-                                    }
-                                }
-                                else
-                                {
-                                    <li class="list-group-item text-muted">Нет участников</li>
-                                }
-                            </ul>
+                            <h5 class="card-title">Дата создания проекта</h5>
+                            <div class="list-group list-group-flush text-muted">@project.PostedDate.ToLocalTime()</div>
                         </div>
                     </div>
                 </div>
