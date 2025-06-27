@@ -1,0 +1,66 @@
+@page
+@using Aeon_Web.Models.Entities
+@model Aeon_Web.Areas.Identity.Pages.Account.Manage.ViewReportsModel
+@{
+    ViewData["Title"] = "Жалобы";
+}
+
+<h1>Жалобы</h1>
+
+@if (Model.Reports.Count == 0)
+{
+    <p>Жалоб пока нет.</p>
+}
+else
+{
+    <div class="report-list">
+        @foreach (var report in Model.Reports)
+        {
+            if (report.EntityType == EntityType.Resume)
+            {
+                <a class="report-card" asp-area="Project" asp-page="/Resume/Details" asp-route-resumeId="@report.EntityId"
+                   asp-route-isMatch="true">
+                    <div>
+                        <strong>Тип: Резюме</strong>
+                    </div>
+                    <div>
+                        <strong>ID резюме:</strong> @report.EntityId
+                    </div>
+                </a>
+            }
+            else
+            {
+                <a class="report-card" asp-area="Project" asp-page="/Job/Details" asp-route-vacancyId="@report.EntityId"
+                   asp-route-isMatch="true">
+                    <div>
+                        <strong>Тип: Проект</strong>
+                    </div>
+                    <div>
+                        <strong>ID проекта:</strong> @report.EntityId
+                    </div>
+                </a>
+            }
+        }
+    </div>
+}
+
+<style>
+    .report-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .report-card {
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        text-decoration: none;
+        color: inherit;
+        transition: background-color 0.2s;
+    }
+
+    .report-card:hover {
+        background-color: #f7f7f7;
+    }
+</style>

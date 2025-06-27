@@ -2,39 +2,24 @@ namespace Aeon_Web.Models.Entities;
 
 public class Vacancy
 {
-    public Guid Id { get; }
-    
-    public string Name { get; private set; }
-    
-    public string? Description { get; private set; }
-    
-    public string? ShortDescription { get; private set; }
-    
-    public string WhoNeeded { get; private set; }
+    public required Guid Id { get; set; }
 
-    private Vacancy(
-        string name,
-        string? description,
-        string? shortDescription,
-        string whoNeeded)
-    {
-        Id = Guid.NewGuid();
-        Name = name;
-        Description = description;
-        ShortDescription = shortDescription;
-        WhoNeeded = whoNeeded;
-    }
+    public bool IsVisible { get; set; }
+    
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
 
-    public static Vacancy CreateVacancy(
-        string name,
-        string? description,
-        string? shortDescription,
-        string whoNeeded)
-    {
-        return new Vacancy(
-            name,
-            description,
-            shortDescription,
-            whoNeeded);
-    }
+    public byte DifficultyLevel { get; set; }
+
+    public virtual List<VacancySkill> VacancySkills { get; set; } = [];
+
+    public DateTime PostedDate { get; set; } = DateTime.UtcNow;
+
+    public DateTime? ExpirationDate { get; set; }
+
+    public ContactInfo Contact { get; set; } = new();
+
+    /*public virtual ICollection<UserVacancy> UserVacancies { get; set; } = new List<UserVacancy>();*/
+
+    //public virtual ICollection<Resume> RespondedResumes { get; set; } = new List<Resume>();
 }

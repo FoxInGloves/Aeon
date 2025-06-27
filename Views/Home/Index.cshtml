@@ -1,79 +1,142 @@
-﻿@{
-    ViewData["Title"] = "Find Your Perfect Team";
+﻿@using Aeon_Web.Models.Entities
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@*Todo null reference*@
+
+@{
+    ViewData["Title"] = "Aeon";
+    var user = await UserManager.GetUserAsync(User);
+    var isVisibleVacancy = false;
+    if (user?.OwnedVacancyId != null)
+    {
+        isVisibleVacancy = user.OwnedVacancy.IsVisible;
+    }
 }
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
 <link rel="stylesheet" href="~/css/home/index.css"/>
-<div class="main">
-    <div class="content-container">
-        <h1 class="title">Aeon - Найди идеальную команду</h1>
-        <p class="text">Присоединяйтесь к сообществу инноваторов и создавайте потрясающие проекты вместе.</p>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
-        <div class="search-bar">
-            <input type="text" placeholder="Введите название проекта или навык">
-            <button>Поиск</button>
+@if (SignInManager.IsSignedIn(User))
+{
+    <header data-aos="fade-down">
+        <h1>👋 Добро пожаловать!</h1>
+        <p>Управляй своей карьерой, находи проекты и взаимодействуй с другими участниками.</p>
+        <div class="cta">
+            @if (isVisibleVacancy)
+            {
+                <a asp-area="Project" asp-page="/Resume/List">🔍 Найти Резюме</a>
+            }
+            else
+            {
+                <a asp-area="Project" asp-page="/Job/List">🔍 Найти проект</a>
+            }
+            @if (user is not null)
+            {
+                <a asp-area="Identity" asp-page="/Account/Profile/Edit" asp-route-resumeId="@user.ResumeId">✏️
+                    Редактировать резюме</a>
+            }
+            else
+            {
+                <a asp-area="Identity" asp-page="/Account/Profile/Edit">✏️ Редактировать резюме</a>
+            }
+            <a asp-area="Project" asp-page="/Likes/Index">❤️ Мои лайки</a>
         </div>
+    </header>
 
-        @*<div class="cta-buttons">
-            <button class="btn-primary">Создать проект</button>
-            <button class="btn-secondary">Присоединиться</button>
-        </div>*@
-
-        <div class="categories">
-            <div class="category">
-                <div class="category-title">
-                    Angular
-                </div>
-                <div class="category-mini-description">
-                    Мини описание наверное
-                </div>
-                <div class="category-search">
-                    Search
-                </div>
+    <section class="section" data-aos="fade-up">
+        <h2 style="text-align:center;">🛠 Что ты можешь сделать сейчас?</h2>
+        <div class="features">
+            <div class="card" data-aos="zoom-in">
+                <i class="fa-solid fa-paper-plane"></i>
+                <h3>Откликнуться на проект</h3>
+                <p>Покажи свою заинтересованность и начни сотрудничество.</p>
             </div>
-            <div class="category">
-                <div class="category-title">
-                    TypeScript
-                </div>
-                <div class="category-mini-description">
-                    Мини описание наверное
-                </div>
-                <div class="category-search">
-                    Search
-                </div>
+            <div class="card" data-aos="zoom-in" data-aos-delay="100">
+                <i class="fa-solid fa-handshake"></i>
+                <h3>Получить отклик</h3>
+                <p>Если проект лайкнул тебя в ответ — вы получите совпадение и сможете общаться.</p>
             </div>
-            <div class="category">
-                <div class="category-title">
-                    Java
-                </div>
-                <div class="category-mini-description">
-                    Мини описание наверное
-                </div>
-                <div class="category-search">
-                    Search
-                </div>
-            </div>
-            <div class="category">
-                <div class="category-title">
-                    React
-                </div>
-                <div class="category-mini-description">
-                    Мини описание наверное
-                </div>
-                <div class="category-search">
-                    Search
-                </div>
-            </div>
-            <div class="category">
-                <div class="category-title">
-                    Vue.js
-                </div>
-                <div class="category-mini-description">
-                    Мини описание наверное
-                </div>
-                <div class="category-search">
-                    Search
-                </div>
+            <div class="card" data-aos="zoom-in" data-aos-delay="200">
+                <i class="fa-solid fa-list-check"></i>
+                <h3>Следить за активностью</h3>
+                <p>Ведите историю лайков, откликов и полученных отзывов.</p>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+
+    <section class="section links" data-aos="fade-up">
+        <h2 style="text-align:center;">💡 Полезные ссылки</h2>
+        <div class="features">
+            <div class="card"><i class="fa-solid fa-id-card"></i>
+                <h3><a class="text-light" asp-area="Identity"
+                       asp-page="/Account/Profile/Index">Моё резюме</a></h3></div>
+            <div class="card"><i class="fa-solid fa-diagram-project"></i>
+                <h3><a class="text-light" asp-area="Identity"
+                       asp-page="/Account/Profile/Project/Index">Мой проект</a></h3></div>
+            <div class="card"><i class="fa-solid fa-heart"></i>
+                <h3><a class="text-light" asp-area="Project"
+                       asp-page="/Likes/Index">Входящие лайки</a></h3></div>
+            <div class="card"><i class="fa-solid fa-user"></i>
+                <h3><a class="text-light" asp-area="Identity"
+                       asp-page="/Account/Manage/Index">Настройки профиля</a></h3></div>
+        </div>
+    </section>
+}
+else
+{
+    <header data-aos="fade-down">
+        <h1>🚀 Найди свою идеальную команду с Aeon</h1>
+        <p>Современный сервис для поиска проектов, который говорит на языке твоей карьеры.</p>
+        <div class="cta">
+            <a asp-area="Project" asp-page="/Job/List">Найти проект</a>
+        </div>
+    </header>
+
+    <section class="section" data-aos="fade-up">
+        <h2 style="text-align:center;">🌟 Почему выбирают нас?</h2>
+        <div class="features">
+            <div class="card" data-aos="zoom-in">
+                <i class="fa-solid fa-magic"></i>
+                <h3>Интеллектуальный подбор</h3>
+                <p>Автоматические рекомендации на основе твоего опыта и интересов.</p>
+            </div>
+            <div class="card" data-aos="zoom-in" data-aos-delay="100">
+                <i class="fa-solid fa-globe"></i>
+                <h3>Интересные проекты со всего мира</h3>
+                <p>Маленький и простой или большой и интересный проект — выбирай то, что подходит именно тебе.</p>
+            </div>
+            <div class="card" data-aos="zoom-in" data-aos-delay="200">
+                <i class="fa-solid fa-user-shield"></i>
+                <h3>Приватность</h3>
+                <p>Мы не передаём твои данные третьим лицам. Безопасность на первом месте.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" data-aos="fade-up">
+        <h2 style="text-align:center;">💼 Категории</h2>
+        <div class="features">
+            <div class="card"><i class="fa-solid fa-code"></i>
+                <h3>Backend</h3>
+                <h3>Разработка</h3></div>
+            <div class="card"><i class="fa-solid fa-pen-nib"></i>
+                <h3>Дизайн</h3></div>
+            <div class="card"><i class="fa-solid fa-database"></i>
+                <h3>Frontend</h3>
+                <h3>Разработка</h3></div>
+            <div class="card"><i class="fa-solid fa-bullhorn"></i>
+                <h3>3D моделирование</h3></div>
+        </div>
+    </section>
+}
+
+<script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    </script>

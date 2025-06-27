@@ -1,5 +1,21 @@
 .colored-header {
-    background-color: #0b5ed7;
+    background-color: 	#6366F1;
+    transition: transform 0.3s ease;
     padding-top: 5px;
     margin-bottom: 5px;
 }
+
+.bg-size {
+    background-size: 10rem 10rem;
+    background-repeat: no-repeat;
+    /*background-color: #FFFFFF;*/
+}
+
+/*
+.header-content {
+    display: flex;
+}
+
+.colored-header.hidden {
+    transform: translateY(-100%);
+}*/

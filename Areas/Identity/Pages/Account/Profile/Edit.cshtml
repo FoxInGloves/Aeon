@@ -1,50 +1,83 @@
 @page
-@model Aeon_Web.Areas.Identity.Pages.Account.Profile.Edit
+@model Aeon_Web.Areas.Identity.Pages.Account.Profile.EditModel
 
 @{
-    ViewData["Title"] = "Edit Resume";
+    ViewData["Title"] = Model.Input.IsEdit ? "Редактирование резюме" : "Создание резюме";
 }
 
-<h1>Edit Resume</h1>
+<link rel="stylesheet" href="~/css/areas/identity/account/profile/edit.css"/>
+<link rel="stylesheet" href="~/css/areas/project/switch.css"/>
+<link rel="stylesheet" href="~/css/margin.css"/>
 
-<form method="post">
-    <div>
-        <label asp-for="Resume.FullName"></label>
-        <input asp-for="Resume.FullName" class="form-control" />
-    </div>
+<div class="mlr-5">
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert-success">@TempData["Message"]</div>
+    }
+    <partial name="_StatusMessage" for="StatusMessage"/>
+    <h2>Редактирование резюме</h2>
 
-    <div>
-        <label asp-for="Resume.Title"></label>
-        <input asp-for="Resume.Title" class="form-control" />
-    </div>
+    <form method="post"
+          onsubmit="return @Model.IsHaveVisibleVacancy ? confirm('Ваш проект будет снят с публикации') : null">
+        <input type="hidden" asp-for="Input.ResumeId"/>
+        <input type="hidden" asp-for="Input.IsEdit"/>
+        <input type="hidden" asp-for="IsHaveVisibleVacancy"/>
+        <div>
+            <label asp-for="Input.FullName">Имя</label>
+            <input asp-for="Input.FullName" class="form-control" placeholder="Иванов Иван Иванович"/>
+        </div>
 
-    <div>
-        <label asp-for="Resume.Summary"></label>
-        <textarea asp-for="Resume.Summary" class="form-control"></textarea>
-    </div>
+        <div>
+            <label asp-for="Input.Title">Желаемая роль</label>
+            <input asp-for="Input.Title" class="form-control" placeholder="Backend разработчик"/>
+        </div>
 
-    <h3>Contact Info</h3>
-    <div>
-        <label asp-for="Resume.Contact.Email"></label>
-        <input asp-for="Resume.Contact.Email" class="form-control" />
-    </div>
-    <div>
-        <label asp-for="Resume.Contact.Phone"></label>
-        <input asp-for="Resume.Contact.Phone" class="form-control" />
-    </div>
-    <div>
-        <label asp-for="Resume.Contact.Website"></label>
-        <input asp-for="Resume.Contact.Website" class="form-control" />
-    </div>
+        <div>
+            <label asp-for="Input.Summary">О себе</label>
+            <textarea asp-for="Input.Summary" class="form-control" placeholder="Описание"></textarea>
+        </div>
 
-    <h3>Skills</h3>
-    <div>
-        @*@for (int i = 0; i < Model.Resume.Skills.Count; i++)
-        {
-            <input asp-for="Resume.Skills[i]" class="form-control mb-1" />
-        }*@
-        <input asp-for="Skills" class="form-control mb-1" />
-    </div>
+        <div class="toggle-container mt-2">
+            <label class="toggle-label" asp-for="Input.IsVisible">Показывать резюме</label>
+            <label class="toggle-switch">
+                <input type="checkbox" asp-for="Input.IsVisible">
+                <span class="slider"></span>
+            </label>
+        </div>
 
-    <button type="submit" class="btn btn-primary mt-3">Save</button>
-</form>
+        <h3>Контактная информация</h3>
+        <div>
+            <label asp-for="Input.Email">Email</label>
+            <input asp-for="Input.Email" type="email" class="form-control" placeholder="example@mail.com"/>
+        </div>
+        <div>
+            <label asp-for="Input.Phone">Телефон</label>
+            <input asp-for="Input.Phone" class="form-control" placeholder="+1 234 567 89"/>
+        </div>
+        <div>
+            <label asp-for="Input.Website">Сайт</label>
+            <input asp-for="Input.Website" class="form-control" placeholder="example.com"/>
+        </div>
+
+        <div class="mt-3">
+            <h5><label asp-for="Input.SkillsRaw">Навыки</label></h5>
+            <h6>(через запятую)</h6>
+            <input asp-for="Input.SkillsRaw" class="form-control mb-1" placeholder="C#, ASP.NET, Razor Pages"/>
+        </div>
+
+        <div class="button-container">
+            <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
+            <button class="btn btn-primary mt-3 cancel" onclick="history.back()">Отмена</button>
+        </div>
+    </form>
+
+    @if (Model.Input.IsEdit)
+    {
+        <form method="post" asp-page-handler="Delete"
+              onsubmit="return confirm('Вы уверены, что хотите удалить резюме?');"
+              class="mt-3">
+            <input type="hidden" asp-for="Input.ResumeId"/>
+            <button type="submit" class="btn btn-danger">Удалить резюме</button>
+        </form>
+    }
+</div>

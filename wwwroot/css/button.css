@@ -1,0 +1,41 @@
+.button-primary {
+    background-color: var(--accent);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.button-primary:hover {
+    background-color: var(--accent-hover);
+}
+
+.button-secondary {
+    background-color: var(--accent-light);
+    color: var(--accent);
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.button-secondary:hover {
+    background-color: #e0e7ff;
+}
+
+.button-outline {
+    background: transparent;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.button-outline:hover {
+    background-color: var(--accent-light);
+}

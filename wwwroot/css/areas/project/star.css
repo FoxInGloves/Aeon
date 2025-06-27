@@ -1,0 +1,17 @@
+.star-display {
+    display: inline-flex;
+    gap: 4px;
+    font-size: 2rem;
+    direction: ltr;
+}
+
+.star {
+    width: 2rem;
+    height: 2rem;
+    display: inline-block;
+    background: linear-gradient(to right, gold 50%, #ddd 50%);
+    background-size: 200% 100%;
+    background-position: right;
+    -webkit-mask: url('data:image/svg+xml;utf8,<svg fill="black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15,8.5 22,9 17,14 18.5,21 12,17.5 5.5,21 7,14 2,9 9,8.5"/></svg>') center/contain no-repeat;
+    mask: url('data:image/svg+xml;utf8,<svg fill="black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="12,2 15,8.5 22,9 17,14 18.5,21 12,17.5 5.5,21 7,14 2,9 9,8.5"/></svg>') center/contain no-repeat;
+}

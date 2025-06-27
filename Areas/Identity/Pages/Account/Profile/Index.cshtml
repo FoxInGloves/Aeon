@@ -6,33 +6,73 @@
 }
 
 <link rel="stylesheet" href="~/css/areas/identity/account/profile/profile-actions.css"/>
+<link rel="stylesheet" href="~/css/areas/identity/account/profile/index.css"/>
 <link rel="stylesheet" href="~/css/common.css"/>
 <link rel="stylesheet" href="~/css/text.css"/>
 <link rel="stylesheet" href="~/css/margin.css"/>
 <link rel="stylesheet" href="~/css/sizing.css"/>
 <div>
-    <partial name="_NavPages"/>
+    @*<partial name="_NavPages"/>*@
+    <partial name="_StatusMessage" for="StatusMessage"/>
+    <ul class="nav justify-content-end">
+        @if (Model.Resume is null)
+        {
+            <li class="nav-item">
+                <a class="nav-link active" asp-area="Identity" asp-page="/Account/Profile/Edit">Создать резюме</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link active" asp-area="Identity" asp-route-resumeId="@Model.Resume.Id"
+                   asp-page="/Account/Profile/Edit">Редактировать</a>
+            </li>
+        }
+        <li class="nav-item">
+            <a class="nav-link active" asp-area="Identity" asp-page="/Account/Manage/Index">Настройки</a>
+        </li>
+    </ul>
     <table class="mt-1 center-block">
-        @if (Model.Resume is not null)
+        @if (Model.Resume is null)
+        {
+            <table class="center-block mt-5">
+                <td class="w-50">
+                    <div class="circle-base like-circle me-2">
+                        <a class="circle-text like-circle-text m-auto">
+                            Лайки
+                        </a>
+                    </div>
+                </td>
+                <td class="w-50">
+                    <div class="circle-base proj-circle ms-3">
+                        <a class="circle-text proj-circle-text m-auto" asp-area="Identity"
+                           asp-page="/Account/Profile/Project/Index">
+                            Проект
+                        </a>
+                    </div>
+                </td>
+            </table>
+        }
+        else
         {
             <td class="w-50">
                 <div class="desc me-5 mb-4">
-                    <div class="fw-bold">Hello!</div>
-                    <p>@Model.Resume.Title</p>
+                    <div class="fw-bold">@Model.Resume.Title</div>
                     <p>@Model.Resume.Summary</p>
                 </div>
                 <table class="center-block mt-5">
                     <td class="w-50">
                         <div class="circle-base like-circle me-2">
-                            <a class="circle-text like-circle-text m-auto">
-                                ИЗБРАННОЕ
+                            <a class="circle-text like-circle-text m-auto" asp-area="Project" asp-page="/Likes/Index">
+                                ЛАЙКИ
                             </a>
                         </div>
                     </td>
                     <td class="w-50">
                         <div class="circle-base proj-circle ms-3">
-                            <a class="circle-text proj-circle-text m-auto">
-                                PROJECTS
+                            <a class="circle-text proj-circle-text m-auto" asp-area="Identity"
+                               asp-page="/Account/Profile/Project/Index">
+                                ПРОЕКТ
                             </a>
                         </div>
                     </td>
@@ -41,70 +81,41 @@
             <td class="w-50">
                 <div class="details-container center-block ms-5">
                     <div class="m-tl-50-20">
-                        <p class="light-text fw-bold">Details</p>
-                        <div class="mt-2">
-                            <div class="light-text fw-bold">Роль</div>
-                            <div class="light-text">@Model.Resume.Title</div>
-                        </div>
+                        <p class="light-text fw-bold">Информация:</p>
                         <div class="mt-2">
                             <div class="light-text fw-bold">Имя</div>
                             <div class="light-text">@Model.Resume.FullName</div>
                         </div>
-                        <p class="light-text fw-bold mt-3">Contacts</p>
+                        <div class="mt-2">
+                            <div class="light-text fw-bold">Роль</div>
+                            <div class="light-text">@Model.Resume.Title</div>
+                        </div>
+                        <p class="light-text fw-bold mt-3">Контакты:</p>
                         <div class="mt-3">
                             <div class="light-text fw-bold">Email</div>
                             <div class="light-text">@Model.Resume.Contact.Email</div>
                         </div>
                         <div class="mt-2">
-                            <div class="light-text fw-bold">Phone</div>
+                            <div class="light-text fw-bold">Телефон</div>
                             <div class="light-text">@Model.Resume.Contact.Phone</div>
                         </div>
                         <div class="mt-2">
-                            <div class="light-text fw-bold">Website</div>
+                            <div class="light-text fw-bold">Сайт</div>
                             <div class="light-text">@Model.Resume.Contact.Website</div>
                         </div>
-                        <p class="mt-3">Skills</p>
+                        @if (Model.Skills.Any())
+                        {
+                            <div class="mt-3">
+                                <div class="light-text fw-bold">Навыки</div>
+                                @foreach (var skill in Model.Skills.Take(5))
+                                {
+                                    <span class="skill">@skill.Name</span>
+                                }
+                            </div>
+                        }
                     </div>
                 </div>
             </td>
         }
-        else
-        {
-            <div>
-                <a>
-                    Создать резюме
-                </a>
-            </div>
-        }
-    </table>
-    <table class="mt-1 center-block">
-        <tr>
-            <td>
-                <table class="center-block">
-                    <td class="w-50">
-                        <div class="circle-base like-circle">
-                            <a class="circle-text like-circle-text m-auto">
-                                ИЗБРАННОЕ
-                            </a>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="circle-base proj-circle">
-                            <a class="circle-text proj-circle-text m-auto">
-                                PROJECTS
-                            </a>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="circle-base">
-                            <a></a>
-                        </div>
-                    </td>
-                </table>
-            </td>
-            <td class="w-50">
-
-            </td>
-        </tr>
     </table>
 </div>
