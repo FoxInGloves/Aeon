@@ -27,6 +27,5 @@
 
 ```bash
 git clone https://github.com/FoxInGloves/Aeon.git
-cd Aeon
 ```
 Не забудьте настроить подключение к вашей базе данных в appsettings.json или через переменные среды.
